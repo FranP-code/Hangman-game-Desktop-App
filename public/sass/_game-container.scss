@@ -1,0 +1,58 @@
+.game-container {
+    
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 2vh;
+
+    .column-1 {
+
+    }
+
+    .column-2 {
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 991.98px) {
+
+    .game-container {
+
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .column-1 {
+            order: 10;
+
+            .hangman {
+
+                img {
+
+                    width: 30vw;
+                }
+            }
+        }
+
+        .column-2 {
+            order: 0;
+            margin-bottom: 10vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+/*@media (max-width: 576px) {
+
+}*/
+
+@import 'hangman';
+@import 'word';
+@import 'current-score';
+@import 'categories';

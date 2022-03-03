@@ -1,0 +1,28 @@
+.control-panel {
+
+    .demo-message-container {
+
+        display: flex;
+        justify-content: center;
+
+        padding-top: 5vh;
+        
+        .demo-message {
+            
+            @include titleFont();
+            
+            background-color: rgb(247, 247, 247);
+
+            width: 40vw;
+
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            
+            border: 1px solid rgb(196, 196, 196);
+            
+            border-radius: 5px;
+
+        }
+    }
+}

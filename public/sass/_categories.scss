@@ -1,0 +1,168 @@
+.categories-container {
+
+    overflow-y: hidden;
+
+    .categories {
+        
+        position: absolute;
+        
+        top: 15vh;
+        left: 0;
+        
+        height: 85vh;
+        width: 100vw;
+        
+        background-color: rgb(225, 225, 225);
+
+        transition: opacity 0.4s ease-in-out;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        box-sizing: border-box;
+
+       // padding-top: 10vh;
+        //padding-bottom: 10vh;
+
+        button, select {
+            height: 10vh;
+            width: 50vw;
+            
+            font-family: Helvetica, sans-serif;
+            font-size: 22pt;
+
+            border: none;
+            border-radius: 10px;
+
+            text-align: center;
+            text-align-last: center;
+            -moz-text-align-last: center;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            img, .blank-space {
+                height: 4vw;
+                width: 4vw;
+            }
+
+            @mixin backgroundAndHoverDefiner($buttonColor, $textColor: #000) {
+
+                color: $textColor;
+                
+                background-color: $buttonColor; 
+                border: adjust-color($color: $buttonColor, $blackness: 3%, $alpha: 1.0) solid 2px;
+
+                cursor: pointer;
+
+                transition: 0.4s ease-in-out;
+                
+                &:hover {
+                    background-color: adjust-color($color: $buttonColor, $lightness: 10%, );
+                    transition: 0.4s ease-in-out;
+                    
+                    & img {
+                        animation: bounce;
+                        animation-duration: 0.5s;
+                    }
+                }
+
+            }
+
+            &.Select {
+                $buttonColor: #E96363;
+
+                @include backgroundAndHoverDefiner($buttonColor);
+            }
+
+            &.Cities, &.Ciudades {
+                $buttonColor: #5f9ea0;
+
+                @include backgroundAndHoverDefiner($buttonColor);
+            }
+
+            &.Pokemons {
+                $buttonColor: #ffcb05;
+
+                @include backgroundAndHoverDefiner($buttonColor);
+            }
+
+            &.Programming.Languages, &.Lenguajes.De.Programación {
+                $buttonColor: #e46f01;
+                $textColor: #fff;
+
+                @include backgroundAndHoverDefiner($buttonColor, $textColor);
+            }
+
+            &.Animals, &.Animales {
+                $buttonColor: #efa482;
+
+                @include backgroundAndHoverDefiner($buttonColor)
+            }
+
+            &.Countries, &.Países {
+                $buttonColor: #9f0000;
+                $textColor: #fff;
+
+                @include backgroundAndHoverDefiner($buttonColor, $textColor);
+            }
+
+            &.Random {
+                $buttonColor: #4285f4;
+
+                @include backgroundAndHoverDefiner($buttonColor);
+            }
+        }
+        
+        &.hidden {
+            opacity: 0%;
+            
+            top: 0;
+            height: 85vh;
+
+            button, select {
+
+                height: 5vh;
+            }
+        }
+        
+        &.show {
+            opacity: 100%;
+            
+        }
+        
+        &.stretch {
+            height: auto;
+            width: 100%;
+            
+            button, select {
+                
+                margin-bottom: 5vh;
+            }
+
+            &:last-child {
+
+                margin-bottom: 0vh !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 991.98px) {
+
+    .categories-container {
+        
+        .categories {
+            padding: 0;
+
+            button, select {
+    
+                font-size: 4vw !important;
+            }
+        }
+
+    }
+}

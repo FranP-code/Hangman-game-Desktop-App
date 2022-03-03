@@ -1,0 +1,64 @@
+.word {
+    @include bodyFont();
+
+    font-size: 50pt;
+
+    display: flex;
+    align-items: center;
+
+    max-width: 70vw;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    .letter {
+        width: 3vw;
+        height: 70pt;
+        margin-left: 2vw;
+
+        border-bottom: 5px solid #000;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        &.blank {
+            border: none;
+        }
+    }
+
+    .counter {
+        font-size: 40pt;
+
+        font-family: Helvetica, sans-serif;
+
+        margin-left: 3vw;
+    }
+}
+
+@media (max-width: 991.98px) {
+
+    .word {
+
+        .letter {
+
+            font-size: 10vw;
+        }
+
+        .counter {
+            align-self: flex-end;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+
+    .word {
+
+        .counter {
+            
+            font-size: 10vw;
+
+        }
+    }
+}

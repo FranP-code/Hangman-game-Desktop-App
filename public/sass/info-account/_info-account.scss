@@ -1,0 +1,170 @@
+.info-account {
+
+    @include bodyFont();
+
+    .loading {
+
+        position: initial;
+
+        height: max-content;
+
+        height: 50vh;
+    }
+
+    .person {
+
+        width: 50vw;
+
+        margin-left: 15vw;
+
+        border-bottom: 1px solid rgb(202, 191, 158);
+
+        h3 {
+
+            font-weight: 300;
+        }
+    }
+
+    .functions {
+
+        width: 50vw;
+
+        margin-left: 15vw;
+        margin-top: 2vh;
+
+        display: flex;
+
+        .close-session {
+
+            width: 20vw;
+            height: 10vh;
+
+            font-size: 15pt;
+
+            background: rgb(185, 185, 185);
+
+            transition: ease-in-out 0.4s;
+
+            border: 0;
+
+            //border: 1px solid rgb(92, 92, 92);
+            border-radius: 10px;
+
+            cursor: pointer;
+            
+
+            &:hover {
+                background: rgb(255, 165, 165);
+
+                transition: ease-in-out 0.4s;
+            }
+        }
+
+        .reffer-code-container {
+
+            margin-left: 5vh;
+
+            flex-grow: 1;
+
+            display: flex;
+            align-items: center;
+
+            p {
+                
+                width: 100%;
+                flex-grow: 1;
+
+            }
+
+            button {
+
+                $background-color: rgb(255, 255, 255);
+
+                width: 3vw;
+                height: 3vw;
+
+                background-color: $background-color;
+
+                border: 0;
+                border: 1px solid rgb(83, 83, 83);
+                
+                border-radius: 100%;
+                
+                &:hover {
+
+                    background-color: adjust-color($color: $background-color, $lightness: 10%, $alpha: 1.0);
+                    border: 3px solid rgb(83, 83, 83);
+                    background-color: rgba(0, 0, 0, 0.035);
+                }
+
+                &:active {
+
+                    border: 4px solid rgb(83, 83, 83);
+                }
+            }
+        }
+    }
+}
+
+
+@media (max-width: 991.98px) {
+
+    .info-account {
+        
+        .functions {
+
+            flex-direction: column;
+
+            .close-session {
+
+                width: 100%;
+
+                margin-bottom: 1vh;
+            }
+
+            .reffer-code-container {
+
+                margin-left: 0;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+
+    .info-account {
+
+        .person {
+            width: auto;
+            margin: 0px 10vw;
+            margin-top: 2vh;
+
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            h2, h3 {
+                margin: 0;
+                margin-bottom: 1vh;
+            }
+        }
+
+        .functions {
+
+            .reffer-code-container {
+
+                flex-direction: column;
+
+                button {
+
+                    border-radius: 10px;
+
+                    width: 20vw;
+                    height: 7vw;
+                }
+            }
+        }
+    }
+}

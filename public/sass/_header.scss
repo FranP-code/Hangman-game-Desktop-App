@@ -1,0 +1,112 @@
+header {
+    border-bottom: 1px solid rgb(200, 200, 200);
+
+    height: 15vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1 {
+        @include titleFont();
+        @include titleNormalize();
+
+    }
+
+    h2 {
+        @include titleFont();
+        @include titleNormalize();
+        color: #48a6fd;
+        margin-top: 0.5vh;
+
+        cursor: pointer;
+    }
+
+    .redirect-button {
+        position: absolute;
+        left: 5%;
+
+        width: 10vw;
+        padding: 2vh 0px;
+
+        $backgroundColor: rgb(231, 111, 75);
+
+        background-color: $backgroundColor; 
+        border: 1px solid adjust-color($color: $backgroundColor, $saturation: 33%, $alpha: 1.0);
+        border-radius: 5px;
+
+        color: #fff;
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: ease-in-out 0.1s;
+
+        &:hover {
+            background-color: adjust-color($color: $backgroundColor, $blackness: 10%, $alpha: 1.0);
+
+            transition: ease-in-out 0.2s;
+
+        }
+    }
+
+    @import './control-panel/account-preview';
+}
+
+@media (max-width: 991.98px) {
+    
+    header {
+
+        h2 {
+            
+            color: #fff;
+            background-color: #48a6fd;
+
+            padding: 1vh 1vw;
+            border-radius: 5px;
+
+            transition: 0.2s ease-in-out;
+
+            &:active {
+                background-color: #1f476d;
+                transition: 0.4s ease-in-out;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+
+    header {
+
+        padding: 3vh 0px;
+
+        height: auto;
+
+        h2 {
+
+            margin-bottom: 1vh;
+        }
+
+        .redirect-button {
+            width: 20vw;
+            position: initial;
+        }
+        
+        .account-preview {
+
+            position: initial;
+            
+            .full-name {
+
+                height: 0;
+    
+                &.show {
+
+                    opacity: 0%;
+                }
+            }
+        }
+    }
+}

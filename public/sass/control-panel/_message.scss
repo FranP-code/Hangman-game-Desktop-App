@@ -1,0 +1,24 @@
+.message {
+
+    padding: 4vh 5vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @include titleFont();
+    @include titleNormalize();
+    font-size: 22pt;
+
+    color: #fff;
+    
+    &.error {
+        
+        background-color: rgb(255, 78, 78);
+    }
+
+    &.sucess {
+        
+        background-color: rgb(128, 255, 78);
+    }
+}

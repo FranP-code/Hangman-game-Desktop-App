@@ -1,0 +1,26 @@
+.made-with-love .link {
+    color: #ff8787
+  }
+  
+  .made-with-love {
+    color:rgb(185, 185, 185);
+    margin-top: auto;
+    width: 100%;
+
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    padding-left: 3vw;
+
+    box-sizing: border-box;
+
+    position: absolute;
+    bottom: 0px;
+  }
+
+@media (max-width: 991.98px) {
+  
+  .made-with-love {
+
+    position: initial;
+  }
+}

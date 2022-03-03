@@ -1,0 +1,16 @@
+.current-score {
+    
+    display: flex;
+
+    flex-direction: row-reverse;
+
+    @include titleFont();
+
+    font-size: 18pt;
+
+    color: rgb(88, 255, 107);
+
+    .text {
+        user-select: none;
+    }
+}

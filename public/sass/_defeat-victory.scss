@@ -1,0 +1,42 @@
+.defeat, .victory {
+    font-family: Helvetica, sans-serif;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 7vw;
+
+    background-color: rgba(0, 0, 0, 0.775);
+
+    user-select: none;
+
+    h1 {
+        padding: 5%;
+        background-color: rgba(0, 0, 0, 0.775);
+    }
+}
+
+.defeat {
+    color: rgb(255, 99, 99);
+}
+
+.victory {
+    color: rgb(88, 255, 107);
+}
+
+@media (max-width: 991.98px) {
+
+    .defeat, .victory {
+
+        height: 100%;
+        width: 100%;
+    }
+}

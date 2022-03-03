@@ -1,0 +1,26 @@
+.letter-input-container {
+    height: 30vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    #letter-input {
+
+        $size: 10vw;
+
+        width: $size;
+        height: $size;
+        
+        text-align: center;
+        font-size: calc(#{$size} - 20px); //CREDITS: https://stackoverflow.com/a/52364513
+
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        
+        border: 2px solid #f87665;
+        background-color: #303030cd;
+        color: #ffffff5f;
+    }
+}

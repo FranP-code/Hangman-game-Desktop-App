@@ -1,0 +1,36 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+@mixin titleFont() {
+
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+}
+
+@mixin titleNormalize() {
+    user-select: none;
+    margin: 0;
+}
+
+@mixin bodyFont() {
+
+    font-family: 'Helveltica', sans-serif;
+    font-weight: 400;
+}
+
+@import 'header';
+@import 'game-container';
+@import 'defeat-victory';
+@import 'loading';
+@import 'letters-registered';
+@import 'letter-input';
+@import 'identify';
+@import 'message';
+@import './control-panel/control-panel';
+@import './control-panelDemo/demo-message';
+@import './control-panelDemo/admin-header-demo.scss';
+@import './info-account/info-account';
+@import 'footer';
+@import 'credits';
