@@ -1,4 +1,13 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
+const path = require('path')
+
+// Hot Reload with Electron
+
+if (process.env.NODE_ENV !== 'production') {
+  require('electron-reload')(__dirname, {
+    electron: path.join(__dirname, "../node_modules", ".bin", "electron")
+  })
+}
 
 function createWindow () {
   // Create the browser window.
@@ -11,14 +20,34 @@ function createWindow () {
   //load the index.html from a url
   win.loadURL('http://localhost:3000');
 
-  // Open the DevTools.
-  win.webContents.openDevTools()
-
   // Make window take 100% of the screen
   win.maximize()
 
-  // Remove menu bar
-  win.setMenu(null)
+  // Apply menu bar
+  const mainMenu = Menu.buildFromTemplate(templateMenu)
+  Menu.setApplicationMenu(mainMenu)
+}
+
+// Initialize menu bar
+const templateMenu = []
+
+// Set production menu bar
+if (process.env.NODE_ENV !== "production") {
+  templateMenu.push({
+    label: "Developer Tools",
+    submenu: [
+      {
+        label: "Show/Hide Chrome Dev Tools",
+        accelerator: "F12",
+        click(item, focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      },
+      {
+        role: "reload",
+      }
+    ]
+  })
 }
 
 // This method will be called when Electron has finished
@@ -46,3 +75,5 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+//Project inizialization credits: https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97
