@@ -5,7 +5,7 @@ async function modifySpecificWord(language, category, word, newWord) {
     newWord = newWord.toLowerCase()
     const db = await initializeAndGetConnection()
 
-    const array = db.get(`hangmanWords.${language}.${category}`).value()
+    const array = db.get(`hangmanWords.${language}.${category}.words`).value()
 
     if (array.includes(word) && !array.includes(newWord)) {
         console.log(word)
@@ -16,7 +16,7 @@ async function modifySpecificWord(language, category, word, newWord) {
         array.push(newWord)
         
         db
-        .get(`hangmanWords.${language}.${category}`)
+        .get(`hangmanWords.${language}.${category}.words`)
         .set(array)
         .write()
 

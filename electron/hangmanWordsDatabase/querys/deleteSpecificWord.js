@@ -4,7 +4,7 @@ async function deleteSpecificWord(language, category, word) {
     word = word.toLowerCase()
     const db = await initializeAndGetConnection()
 
-    const array = db.get(`hangmanWords.${language}.${category}`).value()
+    const array = db.get(`hangmanWords.${language}.${category}.words`).value()
 
     if (array.includes(word)) {
         
@@ -13,7 +13,7 @@ async function deleteSpecificWord(language, category, word) {
         array.splice(position, 1)
 
         db
-        .get(`hangmanWords.${language}.${category}`)
+        .get(`hangmanWords.${language}.${category}.words`)
         .set(array)
         .write()
 

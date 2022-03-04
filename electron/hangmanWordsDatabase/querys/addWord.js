@@ -5,13 +5,13 @@ async function addWord(word, language, category) {
     const db = await initializeAndGetConnection()
 
     const searchWordOnDatabase = db
-        .get(`hangmanWords.${language}.${category}`)
+        .get(`hangmanWords.${language}.${category}.words`)
         .value()
         .includes(word)
     
     if (!searchWordOnDatabase) {
         db
-        .get(`hangmanWords.${language}.${category}`)
+        .get(`hangmanWords.${language}.${category}.words`)
         .push(word)
         .write()
         return {
