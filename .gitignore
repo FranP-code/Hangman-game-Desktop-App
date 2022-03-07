@@ -5,6 +5,7 @@ package-lock.json
 .env
 
 electron/usersDatabase/users.json
-electron/hangmanWordsDatabase/hangmanWords.json
+
+DB_HangmanWords.json
 
 public/Hover.css

@@ -1,5 +1,6 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
+
 
 // Hot Reload with Electron
 
@@ -13,7 +14,8 @@ function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
 
@@ -77,3 +79,29 @@ app.on('activate', () => {
 // code. You can also put them in separate files and require them here.
 
 //Project inizialization credits: https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97
+
+ipcMain.on('hangman-words-database-query', async (event, args) => {
+
+  const DatabaseQuerysFactory = require('./hangmanWordsDatabase/DatabaseQuerysFactory.js')
+  const databaseQuerys = DatabaseQuerysFactory()
+  
+  args = JSON.parse(args)
+  console.log(args)
+  
+  let data
+    
+  switch (args.query) {
+    case "getRandomWord":
+      console.log('getRandomWord')
+
+      data = await databaseQuerys.getRandomWord( args.language )
+      break;
+  
+    default:
+      break;
+  }
+
+  console.log(data)
+
+  event.reply('hangman-words-database-query-reply', data)
+})

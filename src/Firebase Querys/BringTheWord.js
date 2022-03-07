@@ -10,7 +10,6 @@ const BringTheWords = async (language = 'english', category = false, selectedWor
         if (!category || category === 'false') {
 
             category = await GetRandomCategory(language)
-
         }
         
         try {

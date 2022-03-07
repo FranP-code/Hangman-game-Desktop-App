@@ -15,25 +15,18 @@ import { RecoveryCurrentScore } from "../../Storage Scripts/RecoveryCurrentScore
 import { RecoveryCurrentCategory } from "../../Storage Scripts/RecoveryCurrentCategory";
 import { RecoveryCurrentLanguage } from "../../Storage Scripts/RecoveryCurrentLanguage";
 import { AlmacenateLanguage } from "../../Storage Scripts/AlmacenateLanguage";
-import WrongLetters from "./components/LettersRegistered/LettersRegistered";
 import Word from "./components/Word/Word";
 import LettersRegistered from "./components/LettersRegistered/LettersRegistered";
 import alphabet from "../../General Scripts/alphabet"
 import checkVictory from "../../General Scripts/checkVictory";
 import checkDefeat from "../../General Scripts/checkDefeat";
 import BringTheWords from "../../Firebase Querys/BringTheWord";
-import SelectRandomWord from "../../Firebase Querys/SelectRandomWord";
 import getWidthScreenUser from "../../General Scripts/getWidthScreenUser";
 import LetterInput from "./components/Letter Input/LetterInput";
 import introducedLetterSound from './sound/Letter introduced.mp3';
 import AppHeader from "./components/AppHeader/AppHeader";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+const { ipcRenderer } = window.require('electron')
 
 function Game() {
 
@@ -64,11 +57,19 @@ function Game() {
     if (!displayApp && selectedWord === '') {
       setSelectedWord('a')
 
-      let word = await BringTheWords(language, category, selectedWord)
-          word = word.toLowerCase()
+      const ipcArgs = JSON.stringify({
+        query: "getRandomWord",
+        language: language
+      })
+
+      ipcRenderer.send('hangman-words-database-query', ipcArgs)
+
+      ipcRenderer.on('hangman-words-database-query-reply', (event, arg) => {
+
+        setSelectedWord(arg)
+      })
   
-      await setSelectedWord(word)
-      await setDisplayApp(true)
+      setDisplayApp(true)
     }
   }
   

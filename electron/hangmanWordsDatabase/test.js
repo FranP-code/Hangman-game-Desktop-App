@@ -2,14 +2,16 @@ const DatabaseQuerysFactory = require('./DatabaseQuerysFactory.js')
 
 const databaseQuerys = DatabaseQuerysFactory()
 
-databaseQuerys.addWord('dog', "english", "animals")
+// databaseQuerys.addWord('dog', "english", "animals")
 
-databaseQuerys.getAllWords()
+// databaseQuerys.getAllWords()
 
-databaseQuerys.getAllWordsFromLanguage('spanish')
+// databaseQuerys.getAllWordsFromLanguage('spanish')
 
 databaseQuerys.getAllWordsFromCategory('english', 'animals')
 
-databaseQuerys.modifySpecificWord('english', 'animals', 'CeT', 'CAT')
+// databaseQuerys.modifySpecificWord('english', 'animals', 'CeT', 'CAT')
 
-databaseQuerys.deleteSpecificWord('english', 'animals', 'koala')
+// databaseQuerys.deleteSpecificWord('english', 'animals', 'koala')
+
+databaseQuerys.getRandomCategory('english')
