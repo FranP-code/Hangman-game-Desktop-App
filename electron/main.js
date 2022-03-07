@@ -1,6 +1,5 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
-
 
 // Hot Reload with Electron
 
@@ -80,39 +79,4 @@ app.on('activate', () => {
 
 //Project inizialization credits: https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97
 
-const DatabaseQuerysFactory = require('./hangmanWordsDatabase/DatabaseQuerysFactory.js')
-const databaseQuerys = DatabaseQuerysFactory()
-
-//Send random word
-
-ipcMain.on('hangman-words-get-random-word', async (event, args) => {
-  
-  args = JSON.parse(args)
-
-  const data = await databaseQuerys.getRandomWord( args.language )
-
-  event.reply('hangman-words-get-random-word-reply', data)
-})
-
-//Send all categories
-
-ipcMain.on('hangman-words-get-all-categories', async (event, args) => {
-
-  args = JSON.parse(args)
-
-  const data = await databaseQuerys.getAllCategorys( args.language )
-  console.log('categories data', data)
-
-  event.reply('hangman-words-get-all-categories-reply', data)
-})
-
-//Send all languages
-
-ipcMain.on('hangman-words-get-all-languages', async (event, args) => {
-
-  args = JSON.parse(args)
-
-  const data = await databaseQuerys.getAllLanguages()
-
-  event.reply('hangman-words-get-all-languages-reply', data)
-})
+require('./hangmanWords.IPCconnect.js')
