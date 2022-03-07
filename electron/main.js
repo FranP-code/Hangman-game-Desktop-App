@@ -80,28 +80,39 @@ app.on('activate', () => {
 
 //Project inizialization credits: https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97
 
-ipcMain.on('hangman-words-database-query', async (event, args) => {
+const DatabaseQuerysFactory = require('./hangmanWordsDatabase/DatabaseQuerysFactory.js')
+const databaseQuerys = DatabaseQuerysFactory()
 
-  const DatabaseQuerysFactory = require('./hangmanWordsDatabase/DatabaseQuerysFactory.js')
-  const databaseQuerys = DatabaseQuerysFactory()
+//Send random word
+
+ipcMain.on('hangman-words-get-random-word', async (event, args) => {
   
   args = JSON.parse(args)
-  console.log(args)
-  
-  let data
-    
-  switch (args.query) {
-    case "getRandomWord":
-      console.log('getRandomWord')
 
-      data = await databaseQuerys.getRandomWord( args.language )
-      break;
-  
-    default:
-      break;
-  }
+  const data = await databaseQuerys.getRandomWord( args.language )
 
-  console.log(data)
+  event.reply('hangman-words-get-random-word-reply', data)
+})
 
-  event.reply('hangman-words-database-query-reply', data)
+//Send all categories
+
+ipcMain.on('hangman-words-get-all-categories', async (event, args) => {
+
+  args = JSON.parse(args)
+
+  const data = await databaseQuerys.getAllCategorys( args.language )
+  console.log('categories data', data)
+
+  event.reply('hangman-words-get-all-categories-reply', data)
+})
+
+//Send all languages
+
+ipcMain.on('hangman-words-get-all-languages', async (event, args) => {
+
+  args = JSON.parse(args)
+
+  const data = await databaseQuerys.getAllLanguages()
+
+  event.reply('hangman-words-get-all-languages-reply', data)
 })

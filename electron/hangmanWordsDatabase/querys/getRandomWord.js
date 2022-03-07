@@ -7,17 +7,11 @@ async function getRandomWord(language, category = false) {
         category = await getRandomCategory(language)
     }
     
-    console.log('language', language)
-    console.log('category', category)
-    
     const db = await initializeAndGetConnection()
 
     const words = db
         .get(`hangmanWords.${language}.${category}.words`)
         .value()
-    
-    console.log(words)
-    console.log(category)
 
     const randomNumber = Math.trunc(
 

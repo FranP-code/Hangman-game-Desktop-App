@@ -6,6 +6,8 @@ const modifySpecificWord = require('./querys/modifySpecificWord.js')
 const deleteSpecificWord = require('./querys/deleteSpecificWord.js')
 const getRandomCategory = require('./querys/getRandomCategory.js')
 const getRandomWord = require('./querys/getRandomWord.js')
+const getAllCategorys = require('./querys/getAllCategorys.js')
+const getAllLanguages = require('./querys/getAllLanguages.js')
 
 function DatabaseQuerysFactory() {
 
@@ -17,7 +19,9 @@ function DatabaseQuerysFactory() {
         modifySpecificWord,
         deleteSpecificWord,
         getRandomCategory,
-        getRandomWord
+        getRandomWord,
+        getAllCategorys,
+        getAllLanguages
     }
 }
 

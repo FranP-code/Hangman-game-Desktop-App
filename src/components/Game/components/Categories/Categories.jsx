@@ -3,16 +3,16 @@ import capitalize from "../../../../General Scripts/Capilazate"
 import AlmacenateCategory from "../../../../Storage Scripts/AlmacenateCategory"
 import AlmacenateCurrentScore from "../../../../Storage Scripts/AlmacenateCurrentScore"
 import { AlmacenateLanguage } from "../../../../Storage Scripts/AlmacenateLanguage"
-import Bring_All_Categories from "./Firebase Querys/Bring All Categories"
-import Bring_All_Languages from "./Firebase Querys/Bring All Languages"
 
 import images from "./Images"
+import AdjustHeightCategories from "./Scripts/AdjustHeightCategories"
 
+const { ipcRenderer } = window.require('electron')
 
 const Categories = ({AppLanguage, displayCategories, category, setCategory, currentScore, setLanguage}, props) => {
 
     const [categories, setCategories] = React.useState(false)
-    const [languages, setLanguages] = React.useState(false)
+    const [languages, setLanguages] = React.useState([])
 
     const [stretch, setStrech] = React.useState(false)
 
@@ -45,9 +45,32 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
 
     React.useEffect (() => {
 
-        Bring_All_Categories(setCategories, setStrech, AppLanguage, category)
-        Bring_All_Languages(setLanguages)
+        // Get categories
+
+        console.log(AppLanguage)
+
+        const ipcArgs = JSON.stringify({
+            language: AppLanguage
+        })
+    
+        ipcRenderer.send('hangman-words-get-all-categories', ipcArgs)
         
+        ipcRenderer.on('hangman-words-get-all-categories-reply', (event, arg) => {
+
+            const categories = arg.map(doc => {return {text: capitalize(doc.text), image: doc.image}})
+            setCategories(categories)
+            AdjustHeightCategories(categories, setStrech)
+        })
+
+        // Get languages
+
+        ipcRenderer.send('hangman-words-get-all-languages', ipcArgs)
+
+        ipcRenderer.on('hangman-words-get-all-languages-reply', (event, arg) => {
+
+            setLanguages(arg)
+        })
+
     }, [])
 
     return (
@@ -78,23 +101,25 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
                   
                     categories.map((categorie) => {
 
-                        const normalizatedCategorie = categorie[0].toLowerCase()
+                        console.log(categorie)
 
-                        return <button
-                                    className={ categorie[0] }
-                                    key={categorie[0]}
-                                    onClick={() => changeCategory(categorie[0])}
-                                >
+                        return (
+                            <button
+                                className={ categorie.text }
+                                key={categorie.text}
+                                onClick={() => changeCategory(categorie)}
+                            >
 
-                                    <img src={images[normalizatedCategorie]} alt={normalizatedCategorie}/>
+                                <img src={categorie.imageURL} alt={`${categorie.text} image`}/>
 
-                                    <span className="text">
-                                        { categorie[0].toUpperCase() }
-                                    </span>
+                                <span className="text">
+                                    { categorie.text.toUpperCase() }
+                                </span>
 
-                                    <div className="blank-space"></div>
+                                <div className="blank-space"></div>
 
-                                </button>
+                            </button>
+                        )
                     })
 
                 : null

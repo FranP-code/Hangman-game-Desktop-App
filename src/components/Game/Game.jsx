@@ -58,17 +58,16 @@ function Game() {
       setSelectedWord('a')
 
       const ipcArgs = JSON.stringify({
-        query: "getRandomWord",
         language: language
       })
 
-      ipcRenderer.send('hangman-words-database-query', ipcArgs)
+      ipcRenderer.send('hangman-words-get-random-word', ipcArgs)
 
-      ipcRenderer.on('hangman-words-database-query-reply', (event, arg) => {
+      ipcRenderer.on('hangman-words-get-random-word-reply', (event, arg) => {
 
         setSelectedWord(arg)
       })
-  
+
       setDisplayApp(true)
     }
   }
