@@ -2,7 +2,9 @@ import React, {useState} from 'react'
 import Loading from '../../../../Game/components/Loading/Loading'
 import AditionalText from './AditionalText/AditionalText'
 import MessageContainer from './MessageContainer'
-import FormActions from './Scripts/FormActions'
+import { toast } from 'react-toastify';
+
+const { ipcRenderer } = window.require('electron')
 
 const Form = () => {
 
@@ -24,6 +26,36 @@ const Form = () => {
         setConfirmPassword('')
         setAdminReferredCode('')
         setMessage(false)
+    }
+
+    function registerUser(e) {
+
+        e.preventDefault()
+
+        const ipcArgs = JSON.stringify({
+            name,
+            password,
+            confirmPassword,
+            adminReferredCode
+        })
+    
+        ipcRenderer.send('users-add-user', ipcArgs)
+
+        ipcRenderer.once('users-add-user-reply', (event, arg) => {
+            
+            console.log(arg)
+            setLoading(false)
+
+            toast[arg.status](arg.message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+        })
     }
 
     return (
@@ -62,7 +94,7 @@ const Form = () => {
                         onSubmit={(e) => {
                             setLoading(true)
 
-                            FormActions(e, [email, password], option, setLoading, setMessage)
+                            // FormActions(e, [email, password], option, setLoading, setMessage)
                             clearStates()
                         }}
                     >
@@ -89,7 +121,7 @@ const Form = () => {
 
                     <form
                         onSubmit={(e) => {
-                            FormActions(e, [name, email, password, confirmPassword, adminReferredCode], option, setLoading, setMessage)
+                            registerUser(e)
                             clearStates()
                             setLoading(true)
                         }}
@@ -100,14 +132,6 @@ const Form = () => {
                             required
                             onChange={(e) => setName(e.target.value)}
                             value={name}
-                        />
-
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            required
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email} 
                         />
                         <input
                             type="password"

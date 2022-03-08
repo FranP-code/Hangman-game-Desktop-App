@@ -20,69 +20,72 @@ import AccountInfo from "./components/Admin/Account/AccountInfo/AccountInfo";
 import Footer from "./components/Footer/Footer";
 import Credits from "./components/Footer/Credits/Credits";
 import PokemonScripts from "./components/Pokemon Scripts/PokemonScripts";
+import ReactToastContainer from "./ReactToastContainer";
 
 function App() {
   return (
-    <Router>
-      <>
-        <Switch>
+    <>
+      <ReactToastContainer />
+      <Router>
+        <>
+          <Switch>
 
-          {/* <Route path='/pokemon'>
+            {/* <Route path='/pokemon'>
 
-            <PokemonScripts />
+              <PokemonScripts />
 
-          </Route> */}
+            </Route> */}
 
-          <Route path="/credits-page">
+            <Route path="/credits-page">
 
-            <Credits />
-            {/* <Footer /> */}
+              <Credits />
+              {/* <Footer /> */}
 
-          </Route>
+            </Route>
 
-          <Route path="/my-account">
-          
-            <AccountInfo />
-            <Footer />
+            <Route path="/my-account">
+            
+              <AccountInfo />
+              <Footer />
 
-          </Route>
+            </Route>
 
-          <Route path="/password-recovery">
+            <Route path="/password-recovery">
 
-            <PasswordRecovery />
-            <Footer />
+              <PasswordRecovery />
+              <Footer />
 
-          </Route>
+            </Route>
 
-          <Route path='/admin-place/demo'>
+            <Route path='/admin-place/demo'>
 
-            <DemoControlPanel />
+              <DemoControlPanel />
 
-          </Route>
+            </Route>
 
-          <Route path='/admin-place'>
+            <Route path='/admin-place'>
 
-            <ControlPanel />
+              <ControlPanel />
 
-          </Route>
+            </Route>
 
-          <Route path='/identify'>
+            <Route path='/identify'>
 
-            <AdminIdentify />
-            <Footer />
+              <AdminIdentify />
+              <Footer />
 
-          </Route>
+            </Route>
 
-          <Route path="/">
+            <Route path="/">
 
-            <Game />
-            <Footer />
+              <Game />
+              <Footer />
 
-          </Route>
-        </Switch>
-      </>
-   </Router>
-  );
-}
+            </Route>
+          </Switch>
+        </>
+    </Router>
+    </>
+)}
 
 export default App;

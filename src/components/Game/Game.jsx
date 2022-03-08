@@ -52,7 +52,7 @@ function Game() {
 
   const [displayCategories, setDisplayCategories] = useState(false)
 
-  const bringWordFromFirebase = async () => {
+  const getRandomWord = async () => {
 
     if (!displayApp && selectedWord === '') {
       setSelectedWord('a')
@@ -63,7 +63,7 @@ function Game() {
 
       ipcRenderer.send('hangman-words-get-random-word', ipcArgs)
 
-      ipcRenderer.on('hangman-words-get-random-word-reply', (event, arg) => {
+      ipcRenderer.once('hangman-words-get-random-word-reply', (event, arg) => {
 
         setSelectedWord(arg)
       })
@@ -87,7 +87,7 @@ function Game() {
     getWidthScreenUser(setMobileUser)
 
     if (!displayApp && selectedWord === '' && categoryIsReady && languageIsReady) {
-      bringWordFromFirebase()
+      getRandomWord()
     }
 
   }, [categoryIsReady])

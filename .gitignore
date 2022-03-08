@@ -7,5 +7,6 @@ package-lock.json
 electron/usersDatabase/users.json
 
 DB_HangmanWords.json
+DB_Users.json
 
 public/Hover.css

@@ -5,7 +5,7 @@ let db
 
 async function createConnection() {
 
-    const adapter = new FileSync("users.json")
+    const adapter = new FileSync("DB_Users.json")
     
     db = await low(adapter)
     db.defaults({users: []}).write()

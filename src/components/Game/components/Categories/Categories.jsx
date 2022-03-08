@@ -55,7 +55,7 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
     
         ipcRenderer.send('hangman-words-get-all-categories', ipcArgs)
         
-        ipcRenderer.on('hangman-words-get-all-categories-reply', (event, arg) => {
+        ipcRenderer.once('hangman-words-get-all-categories-reply', (event, arg) => {
 
             const categories = arg.map(doc => {return {text: capitalize(doc.text), image: doc.image}})
             setCategories(categories)
@@ -66,7 +66,7 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
 
         ipcRenderer.send('hangman-words-get-all-languages', ipcArgs)
 
-        ipcRenderer.on('hangman-words-get-all-languages-reply', (event, arg) => {
+        ipcRenderer.once('hangman-words-get-all-languages-reply', (event, arg) => {
 
             setLanguages(arg)
         })

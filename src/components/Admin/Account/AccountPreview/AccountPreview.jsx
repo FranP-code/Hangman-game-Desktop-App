@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import bringNameOfEmail from './Firebase Querys/bringNameOfEmail';
 import { withRouter } from 'react-router';
 
@@ -28,24 +28,6 @@ const AccountPreview = (props) => {
         }
     }
 
-    React.useEffect(() => {
-
-        if (!login) {
-            
-            const auth = getAuth()
-            
-            onAuthStateChanged(auth, (user) => {
-                
-                if (user) {
-                    defineName(user.email)
-                    setLogin(true)
-                } else {
-                    props.history.push('/identify')
-                }
-            })   
-        }
-    }, [])
-    
     return (
         <>
             {

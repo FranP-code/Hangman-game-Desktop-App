@@ -80,3 +80,4 @@ app.on('activate', () => {
 //Project inizialization credits: https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97
 
 require('./hangmanWords.IPCconnect.js')
+require('./users.IPCconnect.js')
