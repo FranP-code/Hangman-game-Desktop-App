@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
+require('dotenv').config()
 
 // Hot Reload with Electron
 

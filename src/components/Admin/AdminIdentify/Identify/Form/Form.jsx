@@ -11,7 +11,6 @@ const Form = () => {
     const [option, setOption] = useState('login')
 
     const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [adminReferredCode, setAdminReferredCode] = useState('')
@@ -21,11 +20,37 @@ const Form = () => {
 
     const clearStates = () => {
 
-        setEmail('')
         setPassword('')
         setConfirmPassword('')
         setAdminReferredCode('')
         setMessage(false)
+    }
+
+    function loginUser(e) {
+        e.preventDefault()
+
+        const ipcArgs = JSON.stringify({
+            username: name,
+            password
+        })
+
+        ipcRenderer.send('users-login', ipcArgs)
+
+        ipcRenderer.once('users-login-reply', (event, arg) => {
+            
+            console.log(arg)
+            setLoading(false)
+
+            toast[arg.status](arg.message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+        })
     }
 
     function registerUser(e) {
@@ -93,17 +118,17 @@ const Form = () => {
                     <form
                         onSubmit={(e) => {
                             setLoading(true)
-
+                            loginUser(e)
                             // FormActions(e, [email, password], option, setLoading, setMessage)
                             clearStates()
                         }}
                     >
                         <input
-                            type="email"
-                            placeholder="Email"
+                            type="text"
+                            placeholder="User"
                             required
-                            onChange={(e) => setEmail(e.target.value)}
-                            value={email} 
+                            onChange={(e) => setName(e.target.value)}
+                            value={name} 
                         />
                         <input
                             type="password"

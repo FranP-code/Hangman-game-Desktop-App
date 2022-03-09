@@ -4,6 +4,7 @@ const getAllUsers = require('./querys/getAllUsers.js')
 const modifyUser = require('./querys/modifyUser.js')
 const removeUser = require('./querys/removeUser.js')
 const searchForAdminRefferCode = require('./querys/searchForAdminRefferCode.js')
+const checkIfUserAndPasswordExists = require('./querys/checkIfUserAndPasswordExists.js')
 
 const DatabaseQuerysFactory = () => {
 
@@ -13,7 +14,8 @@ const DatabaseQuerysFactory = () => {
         getAllUsers,
         modifyUser,
         removeUser,
-        searchForAdminRefferCode
+        searchForAdminRefferCode,
+        checkIfUserAndPasswordExists
     }
 }
 
