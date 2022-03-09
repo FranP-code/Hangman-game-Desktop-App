@@ -7,8 +7,8 @@ import Messages from '../../../../Messages/Messages'
 import AddWordToFirebase from './Firebase Querys/AddWordToFirebase'
 import SendMeEmail from '../../Email/SendMeEmail'
 import getCategoryForDatabase from './Firebase Querys/getCategoryForDatabase'
-import { toast } from 'react-toastify';
 import UserDataContext from '../../../../../contexts/UserDataContext'
+import Toast from '../../../Toast/Toast'
 
 const { ipcRenderer } = window.require('electron')
 
@@ -120,15 +120,7 @@ const AddWord = () => {
             
             setLoading(false)
             
-            toast[arg.status](arg.message, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
+            Toast(arg.status, arg.message)
         })
     }
 

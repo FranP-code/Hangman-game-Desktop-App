@@ -2,9 +2,9 @@ import React, {useContext, useState} from 'react'
 import Loading from '../../../../Game/components/Loading/Loading'
 import AditionalText from './AditionalText/AditionalText'
 import MessageContainer from './MessageContainer'
-import { toast } from 'react-toastify';
 import {withRouter} from 'react-router'
 import UserDataContext from '../../../../../contexts/UserDataContext';
+import Toast from '../../../Toast/Toast';
 
 const { ipcRenderer } = window.require('electron')
 
@@ -44,15 +44,7 @@ const Form = ({history}) => {
             
             console.log(arg)
             
-            toast[arg.status](arg.message, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
+            Toast(arg.status, arg.message)
 
             setLoading(false)
             
@@ -85,15 +77,7 @@ const Form = ({history}) => {
             console.log(arg)
             setLoading(false)
 
-            toast[arg.status](arg.message, {
-                position: "bottom-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            })
+            Toast(arg.status, arg.message)
         })
     }
 
