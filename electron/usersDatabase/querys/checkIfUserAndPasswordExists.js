@@ -29,6 +29,8 @@ async function checkIfUserAndPasswordExists(username, password) {
         }
     }
 
+    delete user.password
+
     return {
         status: "success",
         message: "User logged",

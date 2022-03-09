@@ -23,6 +23,9 @@ import PokemonScripts from "./components/Pokemon Scripts/PokemonScripts";
 import ReactToastContainer from "./ReactToastContainer";
 
 function App() {
+
+  const [userData, setUserData] = useState({})
+
   return (
     <>
       <ReactToastContainer />
@@ -65,13 +68,13 @@ function App() {
 
             <Route path='/admin-place'>
 
-              <ControlPanel />
+              <ControlPanel userData={userData}/>
 
             </Route>
 
             <Route path='/identify'>
 
-              <AdminIdentify />
+              <AdminIdentify setUserData={setUserData}/>
               <Footer />
 
             </Route>

@@ -3,10 +3,10 @@ import Form from './Form/Form'
 import {withRouter} from 'react-router'
 
 
-const Identify = (props) => {
+const Identify = ({setUserData}) => {
 
     return (
-        <Form />
+        <Form setUserData={setUserData}/>
     )
 }
 

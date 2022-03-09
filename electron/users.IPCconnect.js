@@ -101,7 +101,6 @@ ipcMain.on('users-login', async (event, arg) => {
         }
 
         // Generate Access Token for logged user
-
         const jwt = require('jsonwebtoken')
         const accessToken = jwt.sign({user: response.data}, process.env.JWT_SECRET_KEY)
 
@@ -114,4 +113,57 @@ ipcMain.on('users-login', async (event, arg) => {
 
     event.reply('users-login-reply', response)
     
+})
+
+ipcMain.on('users-check-token', async (event, arg) => {
+    async function checkToken() {
+
+        /** arg:
+         * accessToken: string,
+         * data: {
+         *  username: string,
+         *  adminRefferCode: string,
+         *  id: string,
+         *  refferedByUser: {
+         *     id: string
+         *    }
+         *  },
+         * message: string,
+         * status: string,
+        */
+
+        arg = JSON.parse(arg)
+        console.log(arg)
+
+        //Check if Access Token exists
+        if (!arg.accessToken) {
+            return {
+                status: "error",
+                message: "Access Token not provided"
+            }
+        }
+
+        //Check if Access Token is valid
+        const jwt = require('jsonwebtoken')
+
+        try {
+            
+            jwt.verify(arg.accessToken, process.env.JWT_SECRET_KEY)
+        
+            return {
+                status: "success",
+                message: "Access token valid"
+            }
+        } catch (error) {
+            console.log(error)
+            return {
+                status: "error",
+                message: "Access token not valid"
+            }
+        }
+    }
+
+    const response = await checkToken()
+
+    event.reply('users-check-token-reply', response)
 })

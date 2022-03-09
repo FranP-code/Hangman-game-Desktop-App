@@ -3,10 +3,11 @@ import Loading from '../../../../Game/components/Loading/Loading'
 import AditionalText from './AditionalText/AditionalText'
 import MessageContainer from './MessageContainer'
 import { toast } from 'react-toastify';
+import {withRouter} from 'react-router'
 
 const { ipcRenderer } = window.require('electron')
 
-const Form = () => {
+const Form = ({setUserData, history}) => {
 
     const [option, setOption] = useState('login')
 
@@ -39,17 +40,23 @@ const Form = () => {
         ipcRenderer.once('users-login-reply', (event, arg) => {
             
             console.log(arg)
-            setLoading(false)
-
+            
             toast[arg.status](arg.message, {
                 position: "bottom-left",
                 autoClose: 5000,
-                hideProgressBar: false,
+                hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
             })
+
+            setUserData(arg)
+            setLoading(false)
+
+            setTimeout(() => {
+                history.push('/admin-place')
+            }, 3000);
         })
     }
 
@@ -196,4 +203,4 @@ const Form = () => {
     )
 }
 
-export default Form
+export default withRouter(Form)

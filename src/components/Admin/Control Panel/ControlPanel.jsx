@@ -1,28 +1,22 @@
 import React from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 import AdminFunctionButton from "./AdminFunctionButton";
 import {withRouter} from 'react-router'
 import Actions from "./Actions/Actions";
 import AdminHeader from "../Header/AdminHeader";
+import checkIfTokenIsValid from "./Scripts/checkIfTokenIsValid";
 
 const ControlPanel = (props) => {
 
-    const [userLogged, setUserLogged] = React.useState(false)
     const [actualAction, setActualAction] = React.useState('')
+    const [userLogged, setUserLogged] = React.useState(false)
 
-    const auth = getAuth()
+    async function checkUserLogged() {
+        await checkIfTokenIsValid(props.userData, setUserLogged)
+    }
 
-    onAuthStateChanged(auth, (user) => {
-
-        if (!user) {
-
-            props.history.push('/identify')
-
-        } else {
-            setUserLogged(true)
-        }
-    })
-
+    React.useEffect(() => {
+        checkUserLogged()
+    }, [])
     return (
         <>
             <AdminHeader />
