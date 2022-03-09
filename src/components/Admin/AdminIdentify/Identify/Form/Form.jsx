@@ -1,13 +1,16 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import Loading from '../../../../Game/components/Loading/Loading'
 import AditionalText from './AditionalText/AditionalText'
 import MessageContainer from './MessageContainer'
 import { toast } from 'react-toastify';
 import {withRouter} from 'react-router'
+import UserDataContext from '../../../../../contexts/UserDataContext';
 
 const { ipcRenderer } = window.require('electron')
 
-const Form = ({setUserData, history}) => {
+const Form = ({history}) => {
+
+    const context = useContext(UserDataContext)
 
     const [option, setOption] = useState('login')
 
@@ -51,12 +54,16 @@ const Form = ({setUserData, history}) => {
                 progress: undefined,
             })
 
-            setUserData(arg)
             setLoading(false)
+            
+            if (arg.status === 'success') {
+                
+                context.setUserData(arg)
 
-            setTimeout(() => {
-                history.push('/admin-place')
-            }, 3000);
+                setTimeout(() => {
+                    history.push('/admin-place')
+                }, 3000);
+            }
         })
     }
 

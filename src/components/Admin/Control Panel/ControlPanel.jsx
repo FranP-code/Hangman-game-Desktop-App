@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import AdminFunctionButton from "./AdminFunctionButton";
 import {withRouter} from 'react-router'
 import Actions from "./Actions/Actions";
 import AdminHeader from "../Header/AdminHeader";
 import checkIfTokenIsValid from "./Scripts/checkIfTokenIsValid";
+import UserDataContext from "../../../contexts/UserDataContext";
 
-const ControlPanel = (props) => {
+const ControlPanel = () => {
+
+    const context = useContext(UserDataContext)
 
     const [actualAction, setActualAction] = React.useState('')
     const [userLogged, setUserLogged] = React.useState(false)
 
     async function checkUserLogged() {
-        await checkIfTokenIsValid(props.userData, setUserLogged)
+        await checkIfTokenIsValid(context.userData, setUserLogged)
     }
 
     React.useEffect(() => {

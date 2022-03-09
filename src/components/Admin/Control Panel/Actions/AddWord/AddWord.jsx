@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Loading from '../../../../Loading/Loading'
 import BringCategories from './Firebase Querys/BringCategories'
 import BringLanguages from './Firebase Querys/BringLanguages'
@@ -7,9 +7,14 @@ import Messages from '../../../../Messages/Messages'
 import AddWordToFirebase from './Firebase Querys/AddWordToFirebase'
 import SendMeEmail from '../../Email/SendMeEmail'
 import getCategoryForDatabase from './Firebase Querys/getCategoryForDatabase'
+import { toast } from 'react-toastify';
+import UserDataContext from '../../../../../contexts/UserDataContext'
 
+const { ipcRenderer } = window.require('electron')
 
 const AddWord = () => {
+
+    const context = useContext(UserDataContext)
 
     const [loading, setLoading] = useState(true)
     const [languageList, setLanguageList] = useState([])
@@ -23,20 +28,16 @@ const AddWord = () => {
 
     const [canceledAddingWords, setCanceledAddingWords] = useState(false)
 
-    const bringData = async () => {
-
-        const language = await BringLanguages()
-        const category = await BringCategories()
-
-        setLanguageList(language)
-        setCategoryList(category)
-
-        setLoading(false)
-    } 
-
     React.useEffect(() => {
 
-        bringData()
+        ipcRenderer.send('hangman-words-querys-get-languages')
+
+        ipcRenderer.once('hangman-words-querys-get-languages-reply', (event, arg) => {
+            console.log(arg)
+            setLanguageList(arg)
+            // setCategoryList(arg.categories)
+            setLoading(false)
+        })
         
     }, [])
 
@@ -44,6 +45,14 @@ const AddWord = () => {
 
         setLanguageSelection(e.target.value)
         setCategorySelection(false)
+
+        ipcRenderer.send('hangman-words-querys-get-categories', e.target.value)
+
+        ipcRenderer.once('hangman-words-querys-get-categories-reply', (event, arg) => {
+            console.log(arg)
+            // setLanguageList(arg)
+            setCategoryList(arg)
+        })
     }
 
     const submitInformation = async (e) => {
@@ -75,8 +84,6 @@ const AddWord = () => {
 
             return
         }
-
-        const categoryForDatabase = await getCategoryForDatabase(categorySelection, languageSelection)
         
         if (!wordsToAdd || wordsToAdd === '') {
 
@@ -96,36 +103,33 @@ const AddWord = () => {
         splitedWords = splitedWords.map(word => word.toLowerCase())
         splitedWords = splitedWords.map(word => capitalize(word))
 
-        console.log(categoryForDatabase);
+        const ipcArgs = JSON.stringify({
+            words: splitedWords,
+            language: languageSelection,
+            category: categorySelection,
+            userData: context.userData
+        })
 
-        const uploadWordsPromise = new Promise((resolve, reject) => {
+        ipcRenderer.send('hangman-words-querys-add-words-array', ipcArgs)
+
+        ipcRenderer.once('hangman-words-querys-add-words-array-reply', (event, arg) => {
             
-                splitedWords.forEach(async (word, index) => {
-                       
-                       if (!canceledAddingWords) {
-                           
-                           if (await AddWordToFirebase(languageSelection, await categoryForDatabase, word, setData) === 'error') {
-                               
-                               setCanceledAddingWords(true)
-                           }
-
-                           if (index === splitedWords.length -1) resolve();
-                       }
-                   }) 
-            }   
-        )
-
-        uploadWordsPromise.then(() => {
-
             setLanguageSelection('')
             setCategorySelection('')
             setWordsToAdd('')
-
+            
             setLoading(false)
-            SendMeEmail('Add Word(s)')
+            
+            toast[arg.status](arg.message, {
+                position: "bottom-left",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
         })
-
-        //! CREDITS FOR THE PROMISE LOGIC: https://stackoverflow.com/a/38407013
     }
 
     return (
@@ -161,7 +165,7 @@ const AddWord = () => {
                         >
                             <option value="default">Select category</option>
                             {
-                                categoryList.map( category => <option key={category} value={category}>{capitalize(category)}</option>)
+                                categoryList.map( category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
                             }
                         </select>
                         <textarea

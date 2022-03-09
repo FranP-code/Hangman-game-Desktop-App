@@ -82,3 +82,4 @@ app.on('activate', () => {
 
 require('./hangmanWords.IPCconnect.js')
 require('./users.IPCconnect.js')
+require('./hangmanWords.querys.IPCconnect.js')

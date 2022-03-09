@@ -22,6 +22,8 @@ import Credits from "./components/Footer/Credits/Credits";
 import PokemonScripts from "./components/Pokemon Scripts/PokemonScripts";
 import ReactToastContainer from "./ReactToastContainer";
 
+import UserDataContext from "./contexts/UserDataContext";
+
 function App() {
 
   const [userData, setUserData] = useState({})
@@ -29,6 +31,7 @@ function App() {
   return (
     <>
       <ReactToastContainer />
+      <UserDataContext.Provider value={{userData, setUserData}}>
       <Router>
         <>
           <Switch>
@@ -66,18 +69,14 @@ function App() {
 
             </Route>
 
-            <Route path='/admin-place'>
-
-              <ControlPanel userData={userData}/>
-
-            </Route>
-
-            <Route path='/identify'>
-
-              <AdminIdentify setUserData={setUserData}/>
-              <Footer />
-
-            </Route>
+              <Route path='/admin-place'>
+                <ControlPanel/>
+              </Route>
+              
+              <Route path='/identify'>
+                <AdminIdentify/>
+                <Footer />
+              </Route>
 
             <Route path="/">
 
@@ -88,6 +87,7 @@ function App() {
           </Switch>
         </>
     </Router>
+    </UserDataContext.Provider>
     </>
 )}
 
