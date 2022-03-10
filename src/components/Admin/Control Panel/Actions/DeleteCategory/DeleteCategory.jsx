@@ -1,35 +1,57 @@
-import React from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import SendMeEmail from '../../Email/SendMeEmail'
 import Loading from '../../../../Loading/Loading'
 import Messages from '../../../../Messages/Messages'
 import capitalize from '../../Scripts/Capilazate'
 import BringCategories from './Firebase Querys/BringCategories'
 import DeleteCategoryFirebase from './Firebase Querys/DeleteCategoryFirebase'
+import Toast from '../../../Toast/Toast'
+import UserDataContext from '../../../../../contexts/UserDataContext'
+const { ipcRenderer } = window.require('electron')
 
 const DeleteCategory = () => {
+    const context = useContext(UserDataContext)
 
-    const [categoriesList, setCategoriesList] = React.useState([])
     const [loading, setLoading] = React.useState(true)
 
-    const [categorySelection, setCategorySelection] = React.useState(false)
     const [data, setData] = React.useState(false)
 
-    const [changedTheFirebaseCategories, setChangedTheFirebaseCategories] = React.useState(true)
+    const [languages, setLanguages] = useState([])
+    const [categories, setCategories] = useState([])
 
-    const BringCategoriesToThisComponent = async () => {
+    const [languageInput, setLanguageInput] = useState('')
+    const [categoryInput, setCategoryInput] = useState('')
 
-        const result = await BringCategories()
-        setCategoriesList(result)
-        setLoading(false)
+    function getLanguages() {
+        ipcRenderer.send('hangman-words-querys-get-languages')
+        ipcRenderer.on('hangman-words-querys-get-languages-reply', (event, arg) => {
+            console.log(arg)
+            setLanguages(arg)
+            setLoading(false)
+        })
+    }
 
+    function getCategories(language) {
+        console.log(language)
+
+        setLanguageInput(language)
+
+        ipcRenderer.send('hangman-words-querys-get-categories', language)
+        ipcRenderer.on('hangman-words-querys-get-categories-reply', (event, arg) => {
+            console.log(arg)
+            setCategories(arg)
+        })
     }
 
     const submitDeleteCategory = async (e) => {
 
         e.preventDefault()
         setLoading(true)
+
+        console.log(categoryInput)
+        console.log(languageInput)
         
-        if (!categorySelection || categorySelection === 'default') {
+        if (!categoryInput  || categoryInput === 'default') {
 
             setData({
                 sucess: false,
@@ -39,30 +61,30 @@ const DeleteCategory = () => {
             return
         }
 
-        const answer = window.confirm(`Are you sure?, this is gonna delete all words in ${capitalize(categorySelection)}'s category`) //! CREDITS: https://stackoverflow.com/a/9334679
+        const answer = window.confirm(`Are you sure?, this is gonna delete all words in ${capitalize(categoryInput)}'s category`) //! CREDITS: https://stackoverflow.com/a/9334679
 
         if (answer) {
 
-            await DeleteCategoryFirebase(categorySelection, setData)
+            const ipcArgs = JSON.stringify({
+                language: languageInput,
+                category: categoryInput,
+                userData: context.userData
+            })
+    
+            ipcRenderer.send('hangman-words-querys-delete-category', ipcArgs)
+            ipcRenderer.once('hangman-words-querys-delete-category-reply', (event, arg) => {
+                Toast(arg.status, arg.message)
+                setLoading(false)
+
+                setCategoryInput('')
+                setLanguageInput('')
+            })
         }
-
-        categorySelection('')
-        setLoading(false)
-
-        setChangedTheFirebaseCategories(true)
-
-        SendMeEmail('Delete Category')
     }
 
     React.useEffect(() => {
-
-        if (changedTheFirebaseCategories) {
-   
-            BringCategoriesToThisComponent()
-            setChangedTheFirebaseCategories(false)
-        }
-
-    }, [changedTheFirebaseCategories])
+        getLanguages()
+    }, [])
 
     return (
         <>
@@ -80,12 +102,21 @@ const DeleteCategory = () => {
                         onSubmit={(e) => submitDeleteCategory(e)}
                     >
                         <select
-                            onChange={e => setCategorySelection(e.target.value)}
-                            value={categorySelection}
+                            onChange={(e) => {
+                                getCategories(e.target.value)
+                            }}
                         >
-                            <option value='default'>Select an option</option>
+                            <option value='default'>Select a language</option>
                             {
-                                categoriesList.map(category => <option key={category} value={category}>{capitalize(category)}</option>)
+                                languages.map(language => <option key={language} value={language}>{capitalize(language)}</option>)
+                            }
+                        </select>
+                        <select
+                            onChange={(e) => setCategoryInput(e.target.value)}
+                        >
+                            <option value="default">Select a category</option>
+                            {
+                                categories.map(category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
                             }
                         </select>
                         <input type="submit" value="Delete"/>

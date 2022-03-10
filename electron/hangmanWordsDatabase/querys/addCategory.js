@@ -36,7 +36,7 @@ async function addCategory(language, category, firstWord) {
     } else {
         return {
             status: 'error',
-            message: 'Word already on database'
+            message: 'Category already on database'
         }
     }
 }

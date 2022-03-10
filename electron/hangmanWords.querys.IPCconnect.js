@@ -2,6 +2,8 @@ const { ipcMain } = require('electron')
 const DatabaseQuerysFactory = require('./hangmanWordsDatabase/DatabaseQuerysFactory.js')
 const databaseQuerys = DatabaseQuerysFactory()
 
+const checkToken = require('./checkToken.js')
+
 ipcMain.on('hangman-words-querys-get-languages', async (event) => {
     const languages = await databaseQuerys.getAllLanguages()
 
@@ -9,6 +11,8 @@ ipcMain.on('hangman-words-querys-get-languages', async (event) => {
 })
 
 ipcMain.on('hangman-words-querys-get-categories', async (event, arg) => {
+    console.log(arg)
+    
     const categories = await databaseQuerys.getAllCategorys(arg)
 
     event.reply('hangman-words-querys-get-categories-reply', categories)
@@ -29,7 +33,6 @@ ipcMain.on('hangman-words-querys-add-words-array', async (event, arg) => {
     */
 
     //Check user token
-    const checkToken = require('./checkToken.js')
     const checkTokenResponse = await checkToken(arg.userData.accessToken)
 
     if (checkTokenResponse.status === "error") {
@@ -70,11 +73,9 @@ ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
     */
 
     //Check user token
-    const checkToken = require('./checkToken.js')
     const checkTokenResponse = await checkToken(arg.userData.accessToken)
 
     if (checkTokenResponse.status === "error") {
-
         return checkTokenResponse
     }
 
@@ -82,4 +83,31 @@ ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
     const response = await databaseQuerys.addCategory(arg.language, arg.category, arg.firstWord)
 
     event.reply('hangman-words-querys-add-category-reply', response)
+})
+
+ipcMain.on('hangman-words-querys-delete-category', async (event, arg) => {
+    arg = JSON.parse(arg)
+    console.log(arg)
+
+    /**
+     * arg: {
+     *  language: string,
+     *  category: string,
+     *  userData: {
+     *    accessToken: string
+     *  }
+     * }
+    */
+
+    //Check user token
+    const checkTokenResponse = await checkToken(arg.userData.accessToken)
+    
+    if (checkTokenResponse.status === "error") {
+        return checkTokenResponse
+    }
+
+    //Execute delete category query
+    const response = await databaseQuerys.deleteCategory(arg.language, arg.category)
+
+    event.reply('hangman-words-querys-delete-category-reply', response)
 })

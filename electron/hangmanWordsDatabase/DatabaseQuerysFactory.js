@@ -9,6 +9,7 @@ const getRandomWord = require('./querys/getRandomWord.js')
 const getAllCategorys = require('./querys/getAllCategorys.js')
 const getAllLanguages = require('./querys/getAllLanguages.js')
 const addCategory = require('./querys/addCategory.js')
+const deleteCategory = require('./querys/deleteCategory.js')
 
 function DatabaseQuerysFactory() {
 
@@ -23,7 +24,8 @@ function DatabaseQuerysFactory() {
         getRandomWord,
         getAllCategorys,
         getAllLanguages,
-        addCategory
+        addCategory,
+        deleteCategory
     }
 }
 
