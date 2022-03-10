@@ -1,46 +1,60 @@
-import React, {useState} from 'react'
+import React, {useState, useRef, useContext} from 'react'
 import AddCategoryToFirebase from './Firebase Querys/AddCategoryToFirebase'
 import Loading from '../../../../Loading/Loading'
 import Messages from '../../../../Messages/Messages'
 import SendMeEmail from '../../Email/SendMeEmail'
+import capitalize from '../../Scripts/Capilazate'
+import Toast from '../../../Toast/Toast'
+import UserDataContext from '../../../../../contexts/UserDataContext'
+
+const { ipcRenderer } = window.require('electron')
 
 const AddCategory = () => {
 
-    const [categorySpanish, setCategorySpanish] = useState('')
-    const [categoryEnglish, setCategoryEnglish] = useState('')
+    const context = useContext(UserDataContext)
 
-    const [fristWordEnglish, setFristWordEnglish] = useState('')
-    const [fristWordSpanish, setFristWordSpanish] = useState('')
+    const [languageList, setLanguageList] = useState([])
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     
-    const [data, setData] = useState('') 
+    const languageInput = useRef('')
+    const categoryInput = useRef('')
+    const firstWord = useRef('')
 
     const addCategorySubmit = async (e) => {
         e.preventDefault()
 
-        setLoading(true)
+        const ipcArgs = JSON.stringify({
+            language: languageInput.current.value,
+            category: categoryInput.current.value,
+            firstWord: firstWord.current.value,
+            userData: context.userData
+        })
 
-        const result = await AddCategoryToFirebase(categoryEnglish, categorySpanish, fristWordEnglish, fristWordSpanish)
-        setData(result)
-
-        setCategoryEnglish('')
-        setCategorySpanish('')
-
-        setFristWordEnglish('')
-        setFristWordSpanish('')
-
-        setLoading(false)
-        SendMeEmail('Add Category')
+        ipcRenderer.send('hangman-words-querys-add-category', ipcArgs)
+        ipcRenderer.once('hangman-words-querys-add-category-reply', (event, arg) => {
+            Toast(arg.status, arg.message)
+            setLoading(false)
+        })
     }
+
+    React.useEffect(() => {
+
+        ipcRenderer.send('hangman-words-querys-get-languages')
+
+        ipcRenderer.once('hangman-words-querys-get-languages-reply', (event, arg) => {
+            
+            languageInput.current.value = ''
+            categoryInput.current.value = ''
+            firstWord.current.value = ''
+            
+            setLanguageList(arg)
+            setLoading(false)
+        })
+    }, [])
 
     return (
         <>
-            {
-                data !== '' ?
-                    <Messages data={data} />        
-                : null
-            }
             {
                 loading ?
                     <Loading />
@@ -49,43 +63,18 @@ const AddCategory = () => {
                     <form
                         onSubmit={e => addCategorySubmit(e)}
                     >
-
-                        <div className="frist-row">
-                            <input
-                                type="text"
-                                placeholder="Add the new category [English]"
-                                required
-                                onChange={e => setCategoryEnglish(e.target.value)}
-                                value={categoryEnglish}
-                            />
-
-                            <input
-                                type="text"
-                                placeholder="Add one word to the new category [English]"
-                                required
-                                onChange={e => setFristWordEnglish(e.target.value)}
-                                value={fristWordEnglish}
-                            />
-                        </div>
-
-                        <div className="second-row">
-                            <input
-                                type="text"
-                                placeholder="Add the new category [Spanish]"
-                                required
-                                onChange={e => setCategorySpanish(e.target.value)}
-                                value={categorySpanish}
-                                />
-
-                            <input
-                                type="text"
-                                placeholder="Add one word to the new category [Spanish]"
-                                required
-                                onChange={e => setFristWordSpanish(e.target.value)}
-                                value={fristWordSpanish}
-                                />
-                        </div>
-
+                        <select ref={languageInput}>
+                            <option value="" selected>Select language</option>
+                            {
+                                languageList.map(language => (
+                                    <option value={language}>
+                                        {capitalize(language)}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        <input type="text" placeholder="Category" ref={categoryInput}/>
+                        <input type="text" placeholder="First word on category" ref={firstWord}/>
                         <input type="submit"/>
                     </form>
                 </div>

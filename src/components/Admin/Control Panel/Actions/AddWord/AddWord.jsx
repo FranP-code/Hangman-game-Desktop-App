@@ -26,8 +26,6 @@ const AddWord = () => {
 
     const [data, setData] = useState(false)
 
-    const [canceledAddingWords, setCanceledAddingWords] = useState(false)
-
     React.useEffect(() => {
 
         ipcRenderer.send('hangman-words-querys-get-languages')
@@ -61,7 +59,6 @@ const AddWord = () => {
         setLoading(true)
 
         setData(false)
-        setCanceledAddingWords(false)
 
         if (!languageSelection || languageSelection === 'default') {
 

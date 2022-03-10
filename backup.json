@@ -1,0 +1,73 @@
+{
+    "hangmanWords": {
+      "english": {
+        "animals": {
+          "words": [
+            "dog",
+            "cat",
+            "bat",
+            "fish",
+            "monkey",
+            "dunkey"
+          ],
+          "icon": ""
+        },
+        "cities": {
+          "words": [
+            "paris"
+          ],
+          "icon": ""
+        },
+        "countries": {
+          "words": [
+            "spain"
+          ],
+          "icon": ""
+        },
+        "pokemon": {
+          "words": [
+            "pikachu"
+          ],
+          "icon": ""
+        },
+        "programming languages": {
+          "words": [
+            "java"
+          ],
+          "icon": ""
+        }
+      },
+      "spanish": {
+        "animales": {
+          "words": [
+            "perro"
+          ],
+          "icon": ""
+        },
+        "ciudades": {
+          "words": [
+            "buenos aires"
+          ],
+          "icon": ""
+        },
+        "países": {
+          "words": [
+            "argentina"
+          ],
+          "icon": ""
+        },
+        "pokemon": {
+          "words": [
+            "charmander"
+          ],
+          "icon": ""
+        },
+        "lenguajes de programación": {
+          "words": [
+            "javascript"
+          ],
+          "icon": ""
+        }
+      }
+    }
+  }
