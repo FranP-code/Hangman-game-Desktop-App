@@ -21,12 +21,14 @@ async function modifySpecificWord(language, category, word, newWord) {
         .write()
 
         return {
-            status: 'success'
+            status: 'success',
+            message: `The word ${word} have been changed to ${newWord}`
         }
     }
     
     return {
-        status: 'error'
+        status: 'error',
+        message: `There has been an error adding the word to the database`
     }
 }
 

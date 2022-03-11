@@ -176,3 +176,35 @@ ipcMain.on('hangman-words-querys-delete-word', async (event, arg) => {
 
     event.reply('hangman-words-querys-delete-word-reply', response)
 })
+
+ipcMain.on('hangman-words-querys-edit-word', async (event, arg) => {
+    arg = JSON.parse(arg)
+    console.log(arg)
+
+    /**
+     * language: string,
+     * category: string,
+     * oldWord: string,
+     * newWord: string,
+     * userData: {
+     *  accessToken: string
+     * }
+    */
+
+    async function editWord() {
+
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
+        
+        if (checkTokenResponse.status === "error") {
+            return checkTokenResponse
+        }
+
+        //Execute modify specific word query
+        return await databaseQuerys.modifySpecificWord(arg.language, arg.category, arg.oldWord, arg.newWord)
+    }
+
+    const response = await editWord()
+
+    event.reply('hangman-words-querys-edit-word-reply', response)
+})
