@@ -1,163 +1,150 @@
-import React, {useState} from 'react'
-import SendMeEmail from '../../Email/SendMeEmail'
+import React, {useState, useContext} from 'react'
 import Loading from '../../../../Loading/Loading'
-import Messages from '../../../../Messages/Messages'
+import Toast from '../../../Toast/Toast'
 import capitalize from '../../Scripts/Capilazate'
-import BringCategories from '../AddWord/Firebase Querys/BringCategories'
-import BringLanguages from '../AddWord/Firebase Querys/BringLanguages'
-import BringTheWordsFromFirebase from './Firebase Querys/BringTheWordsFromFirebase'
-import DeleteWordFromFirebase from './Firebase Querys/DeleteWordFromFirebase'
+import UserDataContext from '../../../../../contexts/UserDataContext'
 
 const DeleteWord = () => {
-
-    const [loading, setLoading] = useState(true)
+    const { ipcRenderer } = window.require('electron')
+    const context = useContext(UserDataContext)
 
     const [languageList, setLanguageList] = useState([])
     const [categoryList, setCategoryList] = useState([])
     const [wordsList, setWordsList] = useState([])
 
-    const [languageSelect, setLanguageSelect] = useState('')
-    const [categorySelect, setCategorySelect] = useState('')
-    const [wordSelect, setWordSelect] = useState('')
-
-    const [data, setData] = useState(false)
-
-    const bringData = async (response = false) => {
-
-        const bringCategoriesToThisComponent = async () => {
-
-            const categories = await BringCategories()
-            setCategoryList(categories)
-        }
-
-        const bringLanguagesToThisComponent = async () => {
-
-            const languages = await BringLanguages()
-            setLanguageList(languages)
-        }
-
-        await bringCategoriesToThisComponent()
-        await bringLanguagesToThisComponent()
-
-        if (response) {
-            setData(response)
-
-        } 
-
-        setLoading(false)
-    }
-
-
-    const bringWords = async (category) => {
-
-        setLoading(true)
-        setCategorySelect(category)
-        
-        const words = await BringTheWordsFromFirebase(languageSelect, category)
-        
-        await setWordsList(words)
-        await setLoading(false)
-
-    }
+    const [languageSelection, setLanguageSelection] = useState('')
+    const [categorySelection, setCategorySelection] = useState('')
+    const [wordSelection, setWordSelection] = useState('')
 
     const submitForm = async (e) => {
 
         e.preventDefault()
-        setLoading(true)
+        //setLoading(true)
 
-        if (languageSelect === '' || languageSelect === 'default') {
-
-            setData({
-                submit: false,
-                message: 'Language empty'
-            })
-            
+        if (languageSelection === '' || languageSelection === 'default') {
+            Toast('error', 'Plase select one language')
             return
         }
 
-        if (categorySelect === '' || categorySelect === 'default') {
-
-            setData({
-                submit: false,
-                message: 'Category empty'
-            })
-            
+        if (categorySelection === '' || categorySelection === 'default') {
+            Toast('error', 'Plase select one category')
             return
         }
 
-        if (wordSelect === '' || wordSelect === 'default') {
-
-            setData({
-                submit: false,
-                message: 'No word selected'
-            })
-
+        if (wordSelection === '' || wordSelection === 'default') {
+            Toast('error', 'Plase select one word')
             return
         }
 
-        const response = await DeleteWordFromFirebase(languageSelect, categorySelect, wordSelect)
+        const ipcArgs = JSON.stringify({
+            language: languageSelection,
+            category: categorySelection,
+            word: wordSelection,
+            userData: context.userData
+        })
 
+        ipcRenderer.send('hangman-words-querys-delete-word', ipcArgs)
+        ipcRenderer.once('hangman-words-querys-delete-word-reply', (event, arg) => {
+            Toast(arg.status, arg.message)
+            //setLoading(false)
+        })
         
-        setLanguageList([])
-        setCategoryList([])
         setWordsList([])
-        setLanguageSelect('')
-        setCategorySelect('')
-        setWordSelect('')
+        setLanguageSelection('')
+        setCategorySelection('')
+        setWordSelection('')
+    }
+
+    function getLanguages() {
+
+        ipcRenderer.send('hangman-words-querys-get-languages')
+        ipcRenderer.once('hangman-words-querys-get-languages-reply', (event, arg) => {
+            setLanguageList(arg)
+        })
+    }
+
+    function getCategories(language) {
         
-        bringData(response)
-        SendMeEmail('Delete Word')
+        setCategorySelection('')
+        setCategoryList([])
+        setWordSelection('')
+        setWordsList([])
+
+        setLanguageSelection(language)
+        
+        if (!language || language === "default") {
+            return
+        }
+        
+        
+        ipcRenderer.send('hangman-words-querys-get-categories', language)
+        ipcRenderer.once('hangman-words-querys-get-categories-reply', (event, arg) => {
+            setCategoryList(arg)
+            //setLoading(false)
+        })
+    }
+
+    function getWords(category) {
+        setCategorySelection(category)
+        setWordSelection('')
+        setWordsList([])
+
+        if (!category || category === "default") {
+            return
+        }
+
+        const ipcArgs = JSON.stringify({
+            language: languageSelection,
+            category: category
+        })
+
+        ipcRenderer.send('hangman-words-querys-get-all-words-from-category', ipcArgs)
+        ipcRenderer.once('hangman-words-querys-get-all-words-from-category-reply', (event, arg) => {
+            setWordsList(arg)
+            //setLoading(false)
+        })
     }
     
     React.useEffect(() => {
         
-        bringData()
+        getLanguages()
 
     }, [])
 
     return (
         <>
-            {
-                data ?
-                   <Messages data={data} />
-                : null
-            }
             <div className="action-form delete-word">
-                {
-                    loading ?
-                        <Loading />
-                    : null
-                }   
                 <form
                     onSubmit={(e) => submitForm(e)}
                 >
-
+                    {/* Language selection */}
                     <select
                         onChange={(e) => {
-                            setLanguageSelect(e.target.value)
-                            setCategorySelect('')
+                            getCategories(e.target.value)
                         }}
+                        value={languageSelection}
                     >
                         <option value="default">Select language</option>
                         {
                             languageList.map(language => <option key={language} value={language}>{capitalize(language)}</option>)
                         }
                     </select>
-
+                    
+                    {/* Category selection */}
                     <select
-                        disabled={languageSelect === '' && !loading ? true : false}
-                        onChange={(e) => bringWords(e.target.value)}
-                        value={categorySelect}
+                        onChange={(e) => getWords(e.target.value)}
+                        value={categorySelection}
                     >
                         <option value="default">Select category</option> 
                         {
-                            categoryList.map(category => <option key={category} value={category}>{capitalize(category)}</option>)
+                            categoryList.map(category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
                         }   
                     </select>
+
+                    {/* Word selection */}
                     <select
-                        disabled={categorySelect === '' && !loading ? true : false}
-                        onChange={(e) => setWordSelect(e.target.value)}
-                        value={wordSelect}
+                        onChange={(e) => setWordSelection(e.target.value)}
+                        value={wordSelection}
                     >
                         <option value="default">Select word</option>
                         {

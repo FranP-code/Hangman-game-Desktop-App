@@ -32,29 +32,36 @@ ipcMain.on('hangman-words-querys-add-words-array', async (event, arg) => {
      * }
     */
 
-    //Check user token
-    const checkTokenResponse = await checkToken(arg.userData.accessToken)
+    async function addWords() {
 
-    if (checkTokenResponse.status === "error") {
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
 
-        return checkTokenResponse
-    }
+        if (checkTokenResponse.status === "error") {
 
-    //For each word, send a 'Add word' query
-    for (let i = 0; i < arg.words.length; i++) {
-        const response = await databaseQuerys.addWord(arg.words[i], arg.language, arg.category)
-    
-        if (response.status === 'error') {
+            return checkTokenResponse
+        }
 
-            return response
+        //For each word, send a 'Add word' query
+        for (let i = 0; i < arg.words.length; i++) {
+            const response = await databaseQuerys.addWord(arg.words[i], arg.language, arg.category)
+        
+            if (response.status === 'error') {
+
+                return response
+            }
+        }
+
+        return {
+            status: "success",
+            message: "All words added to database",
+            words: arg.words
         }
     }
 
-    event.reply('hangman-words-querys-add-words-array-reply', {
-        status: "success",
-        message: "All words added to database",
-        words: arg.words
-    })
+    const response = await addWords()
+
+    event.reply('hangman-words-querys-add-words-array-reply', response)
 })
 
 ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
@@ -72,16 +79,21 @@ ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
      * }
     */
 
-    //Check user token
-    const checkTokenResponse = await checkToken(arg.userData.accessToken)
+    async function addCategory() {
 
-    if (checkTokenResponse.status === "error") {
-        return checkTokenResponse
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
+        
+        if (checkTokenResponse.status === "error") {
+            return checkTokenResponse
+        }
+
+        //Execute add category query
+        return await databaseQuerys.addCategory(arg.language, arg.category, arg.firstWord)
+
     }
 
-    //Execute add category query
-    const response = await databaseQuerys.addCategory(arg.language, arg.category, arg.firstWord)
-
+    const response = await addCategory()
     event.reply('hangman-words-querys-add-category-reply', response)
 })
 
@@ -99,15 +111,68 @@ ipcMain.on('hangman-words-querys-delete-category', async (event, arg) => {
      * }
     */
 
-    //Check user token
-    const checkTokenResponse = await checkToken(arg.userData.accessToken)
+    async function deleteCategory() {
+
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
     
-    if (checkTokenResponse.status === "error") {
-        return checkTokenResponse
+        if (checkTokenResponse.status === "error") {
+            return checkTokenResponse
+        }
+
+        //Execute delete category query
+        return await databaseQuerys.deleteCategory(arg.language, arg.category)
     }
 
-    //Execute delete category query
-    const response = await databaseQuerys.deleteCategory(arg.language, arg.category)
-
+    const response = await deleteCategory()
     event.reply('hangman-words-querys-delete-category-reply', response)
+})
+
+ipcMain.on('hangman-words-querys-get-all-words-from-category', async (event, arg) => {
+    arg = JSON.parse(arg)
+    console.log(arg)
+
+    /**
+     * language: string,
+     * category: string
+    */
+
+    //Execute get all words from category query
+    const response = await databaseQuerys.getAllWordsFromCategory(arg.language, arg.category)
+
+    event.reply('hangman-words-querys-get-all-words-from-category-reply', response)
+})
+
+ipcMain.on('hangman-words-querys-delete-word', async (event, arg) => {
+    arg = JSON.parse(arg)
+    console.log(arg)
+
+    /**
+     * arg: {
+     *  language: string,
+     *  category: string,
+     *  word: string,
+     *  userData: {
+     *    accessToken: string
+     *  }
+     * }
+    */
+    
+    async function deleteWord() {
+
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
+        
+        if (checkTokenResponse.status === "error") {
+            return checkTokenResponse
+        }
+
+        //Execute delete word query
+
+        return await databaseQuerys.deleteSpecificWord(arg.language, arg.category, arg.word)
+    }
+
+    const response = await deleteWord()
+
+    event.reply('hangman-words-querys-delete-word-reply', response)
 })

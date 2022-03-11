@@ -4,26 +4,35 @@ async function deleteSpecificWord(language, category, word) {
     word = word.toLowerCase()
     const db = await initializeAndGetConnection()
 
-    const array = db.get(`hangmanWords.${language}.${category}.words`).value()
+    try {
+        const array = db.get(`hangmanWords.${language}.${category}.words`).value()
 
-    if (array.includes(word)) {
-        
-        const position = array.indexOf(word)
+        if (array.includes(word)) {
+            
+            const position = array.indexOf(word)
 
-        array.splice(position, 1)
+            array.splice(position, 1)
 
-        db
-        .get(`hangmanWords.${language}.${category}.words`)
-        .set(array)
-        .write()
+            db.get(`hangmanWords.${language}.${category}.words`)
+                .set(array)
+                .write()
 
-        return {
-            status: "success"
+            return {
+                status: "success",
+                message: "Word deleted succesfully"
+            }
+        } else {
+            return {
+                status: "error",
+                message: "Word not found on the database"
+            }
         }
-    }
-
-    return {
-        status: "error"
+    } catch (error) {
+        
+        return {
+            status: "error",
+            message: error
+        }
     }
 }
 
