@@ -4,12 +4,14 @@ const databaseQuerys = DatabaseQuerysFactory()
 
 const checkToken = require('./checkToken.js')
 
+//! Get languages
 ipcMain.on('hangman-words-querys-get-languages', async (event) => {
     const languages = await databaseQuerys.getAllLanguages()
 
     event.reply('hangman-words-querys-get-languages-reply', languages)
 })
 
+//! Get categories
 ipcMain.on('hangman-words-querys-get-categories', async (event, arg) => {
     console.log(arg)
     
@@ -18,6 +20,7 @@ ipcMain.on('hangman-words-querys-get-categories', async (event, arg) => {
     event.reply('hangman-words-querys-get-categories-reply', categories)
 })
 
+//! Add words
 ipcMain.on('hangman-words-querys-add-words-array', async (event, arg) => {
     
     arg = JSON.parse(arg)
@@ -64,6 +67,7 @@ ipcMain.on('hangman-words-querys-add-words-array', async (event, arg) => {
     event.reply('hangman-words-querys-add-words-array-reply', response)
 })
 
+//! Add category
 ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
     arg = JSON.parse(arg)
     console.log(arg)
@@ -97,6 +101,7 @@ ipcMain.on('hangman-words-querys-add-category', async (event, arg) => {
     event.reply('hangman-words-querys-add-category-reply', response)
 })
 
+//! Delete category
 ipcMain.on('hangman-words-querys-delete-category', async (event, arg) => {
     arg = JSON.parse(arg)
     console.log(arg)
@@ -128,6 +133,7 @@ ipcMain.on('hangman-words-querys-delete-category', async (event, arg) => {
     event.reply('hangman-words-querys-delete-category-reply', response)
 })
 
+//! Get all words from category
 ipcMain.on('hangman-words-querys-get-all-words-from-category', async (event, arg) => {
     arg = JSON.parse(arg)
     console.log(arg)
@@ -143,6 +149,7 @@ ipcMain.on('hangman-words-querys-get-all-words-from-category', async (event, arg
     event.reply('hangman-words-querys-get-all-words-from-category-reply', response)
 })
 
+//! Delete words
 ipcMain.on('hangman-words-querys-delete-word', async (event, arg) => {
     arg = JSON.parse(arg)
     console.log(arg)
@@ -177,6 +184,7 @@ ipcMain.on('hangman-words-querys-delete-word', async (event, arg) => {
     event.reply('hangman-words-querys-delete-word-reply', response)
 })
 
+//! Edit word
 ipcMain.on('hangman-words-querys-edit-word', async (event, arg) => {
     arg = JSON.parse(arg)
     console.log(arg)
