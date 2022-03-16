@@ -12,13 +12,13 @@ header {
   justify-content: center;
 }
 header h1 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   user-select: none;
   margin: 0;
 }
 header h2 {
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   user-select: none;
   margin: 0;
@@ -44,7 +44,7 @@ header .redirect-button:hover {
   transition: ease-in-out 0.2s;
 }
 header .account-preview {
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   position: absolute;
   left: 88%;
@@ -175,7 +175,7 @@ header .account-preview .full-name.show {
 }
 
 .word {
-  font-family: "Helveltica", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: 400;
   font-size: 50pt;
   display: flex;
@@ -218,7 +218,7 @@ header .account-preview .full-name.show {
 .current-score {
   display: flex;
   flex-direction: row-reverse;
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   font-size: 18pt;
   color: #58ff6b;
@@ -248,7 +248,7 @@ header .account-preview .full-name.show {
 .categories-container .categories button, .categories-container .categories select {
   height: 10vh;
   width: 50vw;
-  font-family: Helvetica, sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-size: 22pt;
   border: none;
   border-radius: 6px;
@@ -418,7 +418,7 @@ header .account-preview .full-name.show {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   user-select: none;
   margin: 0;
@@ -743,7 +743,7 @@ header .account-preview .full-name.show {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   user-select: none;
   margin: 0;
@@ -822,7 +822,7 @@ header .account-preview .full-name.show {
   padding-top: 5vh;
 }
 .control-panel .demo-message-container .demo-message {
-  font-family: "Raleway", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: bold;
   background-color: #f7f7f7;
   width: 40vw;
@@ -861,7 +861,7 @@ header.demo h1 span.demoSpan:hover, header.demo h1 span.demoSpan:focus, header.d
 }
 
 .info-account {
-  font-family: "Helveltica", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: 400;
 }
 .info-account .loading {
@@ -982,7 +982,7 @@ header.demo h1 span.demoSpan:hover, header.demo h1 span.demoSpan:focus, header.d
   }
 }
 .credits {
-  font-family: "Helveltica", sans-serif;
+  font-family: "Be Vietnam Pro", sans-serif;
   font-weight: 400;
 }
 
