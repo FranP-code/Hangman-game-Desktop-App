@@ -14,8 +14,6 @@ import ControlPanel from "./components/Admin/Control Panel/ControlPanel";
 //import Identify from "./components/Admin/AdminIdentify/Identify/Identify";
 import Game from "./components/Game/Game";
 import AdminIdentify from "./components/Admin/AdminIdentify/AdminIdentify";
-import DemoControlPanel from "./components/Demo Admin/Control Panel/DemoControlPanel";
-import PasswordRecovery from "./components/Admin/AdminIdentify/Identify/PasswordRecovery/PasswordRecovery";
 import AccountInfo from "./components/Admin/Account/AccountInfo/AccountInfo";
 import Footer from "./components/Footer/Footer";
 import Credits from "./components/Footer/Credits/Credits";
@@ -66,26 +64,13 @@ function App() {
                 </Route> */}
 
                 <Route path="/credits-page">
-
                   <Credits />
                   {/* <Footer /> */}
-
                 </Route>
-
                 <Route path="/my-account">
-                
                   <AccountInfo />
                   <Footer />
-
                 </Route>
-
-                <Route path="/password-recovery">
-
-                  <PasswordRecovery />
-                  <Footer />
-
-                </Route>
-
                 <Route path='/admin-place/demo'>
                   <ControlPanel demo={true}/>
                 </Route>
@@ -100,11 +85,10 @@ function App() {
                   </Route>
 
                 <Route path="/">
-
                   <Game />
                   <Footer />
-
                 </Route>
+
               </Switch>
             </>
         </Router>
