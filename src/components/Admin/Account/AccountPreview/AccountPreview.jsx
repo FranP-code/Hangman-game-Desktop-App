@@ -14,7 +14,11 @@ const AccountPreview = (props) => {
     const [fullNameDisplay, setFullNameDisplay] = useState(false)
 
     React.useEffect(() => {
-        defineName()
+
+        if (context.userData.data) {
+
+            defineName()
+        }
     }, [])
 
     const defineName = async () => {

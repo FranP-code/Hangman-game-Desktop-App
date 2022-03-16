@@ -87,9 +87,7 @@ function App() {
                 </Route>
 
                 <Route path='/admin-place/demo'>
-
-                  <DemoControlPanel />
-
+                  <ControlPanel demo={true}/>
                 </Route>
 
                   <Route path='/admin-place'>

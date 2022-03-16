@@ -4,7 +4,7 @@ import Toast from '../../../Toast/Toast'
 import capitalize from '../../Scripts/Capilazate'
 import UserDataContext from '../../../../../contexts/UserDataContext'
 
-const DeleteWord = () => {
+const DeleteWord = ({demo}) => {
     const { ipcRenderer } = window.require('electron')
     const context = useContext(UserDataContext)
 
@@ -20,6 +20,12 @@ const DeleteWord = () => {
 
         e.preventDefault()
         //setLoading(true)
+
+         if (demo) {
+
+            Toast('info', 'You must to be logged for run that function')
+            return
+        }
 
         if (languageSelection === '' || languageSelection === 'default') {
             Toast('error', 'Plase select one language')

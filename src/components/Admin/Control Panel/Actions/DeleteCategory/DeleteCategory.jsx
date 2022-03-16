@@ -9,7 +9,7 @@ import Toast from '../../../Toast/Toast'
 import UserDataContext from '../../../../../contexts/UserDataContext'
 const { ipcRenderer } = window.require('electron')
 
-const DeleteCategory = () => {
+const DeleteCategory = ({demo}) => {
     const context = useContext(UserDataContext)
 
     const [data, setData] = React.useState(false)
@@ -44,6 +44,12 @@ const DeleteCategory = () => {
 
         e.preventDefault()
 
+        if (demo) {
+
+            Toast('info', 'You must to be logged for run that function')
+            return
+        }
+        
         console.log(categoryInput)
         console.log(languageInput)
         

@@ -5,7 +5,7 @@ import UserDataContext from '../../../../../contexts/UserDataContext'
 
 const { ipcRenderer } = window.require('electron')
 
-const AddCategory = () => {
+const AddCategory = ({demo}) => {
 
     const context = useContext(UserDataContext)
 
@@ -17,6 +17,12 @@ const AddCategory = () => {
 
     const addCategorySubmit = async (e) => {
         e.preventDefault()
+
+         if (demo) {
+
+            Toast('info', 'You must to be logged for run that function')
+            return
+        }
 
         const ipcArgs = JSON.stringify({
             language: languageInput.current.value,

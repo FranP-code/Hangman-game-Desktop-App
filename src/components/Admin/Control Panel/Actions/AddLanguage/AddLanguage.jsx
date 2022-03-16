@@ -5,7 +5,7 @@ import Toast from '../../../Toast/Toast'
 
 const { ipcRenderer } = window.require('electron')
 
-const AddLanguage = () => {
+const AddLanguage = ({demo}) => {
 
     const context = useContext(UserDataContext)
 
@@ -13,6 +13,12 @@ const AddLanguage = () => {
 
     function submitForm(e) {
         e.preventDefault()
+        
+        if (demo) {
+
+            Toast('info', 'You must to be logged for run that function')
+            return
+        }
 
         const language = languageInput.current.value.toLowerCase()
 

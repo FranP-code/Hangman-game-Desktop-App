@@ -10,7 +10,7 @@ import modifyWordInFirebase from './Firebase Querys/modifyWordInFirebase'
 import UserDataContext from '../../../../../contexts/UserDataContext'
 import Toast from '../../../Toast/Toast'
 
-const EditWord = () => {
+const EditWord = ({demo}) => {
     const { ipcRenderer } = window.require('electron')
     const context = useContext(UserDataContext)
 
@@ -119,6 +119,11 @@ const EditWord = () => {
     }, [])
 
     return (
+        <>
+            {
+            demo ? 
+                <Messages data={{message: "You must be logged for see this function"}}/>
+            :
         <div className="action-form edit-word">
             <form
                 onSubmit={e => submitForm(e)}
@@ -172,6 +177,8 @@ const EditWord = () => {
                 <input type="submit" value="Edit" />
             </form>
         </div>
+        }
+        </>
     )
 }
 

@@ -12,7 +12,7 @@ import Toast from '../../../Toast/Toast'
 
 const { ipcRenderer } = window.require('electron')
 
-const AddWord = () => {
+const AddWord = ({demo}) => {
 
     const context = useContext(UserDataContext)
 
@@ -53,6 +53,12 @@ const AddWord = () => {
     const submitInformation = async (e) => {
         
         e.preventDefault()
+
+        if (demo) {
+
+            Toast('info', 'You must to be logged for run that function')
+            return
+        }
 
         setData(false)
 

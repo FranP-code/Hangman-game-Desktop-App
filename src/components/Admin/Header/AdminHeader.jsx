@@ -1,22 +1,34 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {withRouter} from 'react-router'
 import AccountPreview from '../Account/AccountPreview/AccountPreview'
+import UserDataContext from '../../../contexts/UserDataContext'
 
-const AdminHeader = (props) => {
+const AdminHeader = ({demo, history}) => {
+
+    const context = useContext(UserDataContext)
+
+    React.useEffect(() => {
+        console.log(context)
+    }, [])
+
     return (
-        <header className={props.demo === true ? 'demo' : null}>
+        <header className={demo ? 'demo' : ''}>
             {
-                props.demo === true ? <h1>Admin Place&nbsp;<span className='demoSpan'>Demo!</span></h1> : <h1>Admin Place</h1>
+                demo ? <h1>Admin Place&nbsp;<span className='demoSpan'>Demo!</span></h1> : <h1>Admin Place</h1>
             }
             <button
                 className="redirect-button"
-                onClick={() => props.history.push('/')}    
+                onClick={() => {
+                    context.setUserData({})
+                    history.push('/')}
+                }
+                   
             >
                 Back to the Game
             </button>
 
             {
-                !props.demo ?
+                !demo ?
                     <AccountPreview />
                 : null
             }
