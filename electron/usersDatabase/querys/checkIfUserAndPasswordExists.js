@@ -31,6 +31,15 @@ async function checkIfUserAndPasswordExists(username, password) {
 
     delete user.password
 
+    const Cryptr = require('cryptr');
+    const cryptr = new Cryptr(process.env.CRYPTR_SECRET_KEY);
+
+    console.log(user.adminRefferCode)
+
+    user.adminRefferCode = cryptr.decrypt(user.adminRefferCode)
+
+    console.log(user.adminRefferCode)
+
     return {
         status: "success",
         message: "User logged",

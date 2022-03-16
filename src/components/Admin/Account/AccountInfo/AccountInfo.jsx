@@ -1,15 +1,14 @@
-import React, { useState } from 'react'
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
-
-
+import React, { useContext, useState } from 'react'
 import capitalize from '../../Control Panel/Scripts/Capilazate'
 import bringDataFromFirebase from './Firebase Querys/bringDataFromFirebase'
 import HeaderAccount from './HeaderAccount/HeaderAccount'
 import hideRefferCode from './Scripts/hideRefferCode'
 import Loading from '../../../Loading/Loading'
 import { withRouter } from 'react-router'
+import UserDataContext from '../../../../contexts/UserDataContext'
 
 const AccountInfo = (props) => {
+    const context = useContext(UserDataContext)
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState(false)
@@ -20,94 +19,48 @@ const AccountInfo = (props) => {
 
     const [loading, setLoading] = useState(true)
 
-    const closeSession = async () => {
-
-        const auth = getAuth()
-
-        signOut(auth)
-            .then(() => {
-                props.history.push('/identify')
-        })
-    }
-
     const applyResult = (result) => {
-
-        setName(result['name'])
-        setPosition(result['position'])
-        setRefferCode(result['refferCode'])
+        console.log(result);
+        setEmail(result.email)
+        setName(result.username)
+        setRefferCode(result.adminRefferCode)
     }
 
     const bringData = async (email) => {
 
-        const result = await bringDataFromFirebase(email)
+        const result = context.userData.data
 
-        await applyResult(await result)
+        applyResult(result)
 
         setLoading(false)
     }
 
     React.useEffect(() => {
-
-        const auth = getAuth()
-
-        onAuthStateChanged(auth, (user) => {
-
-            if (user) {
-                setEmail(user.email)
-                bringData(user.email)
-            } else {
-
-                props.history.push('/identify')
-            }
-        })        
-
+        bringData()
     }, [])
 
     return (
         <>
             <HeaderAccount name={'Fran'} />
+            <div className="info-account">       
+                <div className="person">
+                    <h2>{name}</h2>
+                </div>
+                
+                <div className="functions">
+                    <div className="reffer-code-container">
 
-            
-            <div className="info-account">
+                        <p>Reffer Code: {refferCodeHide ? hideRefferCode(refferCode) : refferCode}</p>
 
-            {
-                loading ? 
-                    <Loading />
-                :
-                    <>
-                        <div className="person">
-                            <h2>{name}</h2>
-                            <h3>{capitalize(position)}</h3>
-                            <h3>Email: {email}</h3>
-                        </div>
-                        
-                        <div className="functions">
-
-                            <button
-                                onClick={() => closeSession()}
-                                className="close-session"
-                            >
-                                Close Session
-                            </button>
-
-
-                            <div className="reffer-code-container">
-
-                                <p>Reffer Code: {refferCodeHide ? hideRefferCode(refferCode) : refferCode}</p>
-
-                                <button
-                                    onClick={() => setRefferCodeHide(!refferCodeHide)}
-                                >
-                                    👁️
-                                </button>
-                            </div>
-                        </div>
-                    </>
-            }
+                        <button
+                            onClick={() => setRefferCodeHide(!refferCodeHide)}
+                        >
+                            👁️
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </>
-        
     )
 }
 

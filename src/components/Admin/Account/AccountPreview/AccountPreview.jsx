@@ -1,28 +1,34 @@
 import React, {useState} from 'react'
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
 import bringNameOfEmail from './Firebase Querys/bringNameOfEmail';
 import { withRouter } from 'react-router';
+import { useContext } from 'react';
+import UserDataContext from '../../../../contexts/UserDataContext';
 
 const AccountPreview = (props) => {
 
-    const [login, setLogin] = useState(false)
+    const context = useContext(UserDataContext)
 
     const [fullName, setFullName] = useState('')
     const [initials, setInitials] = useState('')
 
     const [fullNameDisplay, setFullNameDisplay] = useState(false)
 
-    const defineName = async (email) => {
+    React.useEffect(() => {
+        defineName()
+    }, [])
 
-        let name = await bringNameOfEmail(email)
-            name = name.name
+    const defineName = async () => {
+
+        let name = context.userData.data.username
+        console.log(name);
+        console.log(context);
    
         if (name) {
 
             setFullName(name)
 
             let displayName = await name.split(' ')
-            displayName = await displayName.map(string => string[0])
+            displayName = await displayName.map(string => string[0].toUpperCase())
             
             setInitials(displayName)
         }

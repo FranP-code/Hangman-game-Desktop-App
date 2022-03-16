@@ -26,10 +26,13 @@ async function searchForAdminRefferCode(submitedAdminRefferCode) {
     for (let i = 0; i < users.length; i++) {
 
         console.log(users[i])
-        
-        const match = await bcrypt.compare(submitedAdminRefferCode, users[i].adminRefferCode);
 
-        if (match) {
+        const Cryptr = require('cryptr');
+        const cryptr = new Cryptr(process.env.CRYPTR_SECRET_KEY);
+
+        const adminRefferCode = cryptr.decrypt(users[i].adminRefferCode)
+
+        if (submitedAdminRefferCode === adminRefferCode) {
 
             return {
                 status: "success",

@@ -870,6 +870,7 @@ header.demo h1 span.demoSpan:hover, header.demo h1 span.demoSpan:focus, header.d
 }
 .info-account .person {
   width: 50vw;
+  margin-top: 5vh;
   margin-left: 15vw;
   border-bottom: 1px solid #cabf9e;
 }
