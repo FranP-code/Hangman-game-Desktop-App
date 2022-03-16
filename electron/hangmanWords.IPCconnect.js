@@ -27,11 +27,21 @@ ipcMain.on('hangman-words-get-all-categories', async (event, args) => {
 
 //Send all languages
 
-ipcMain.on('hangman-words-get-all-languages', async (event, args) => {
-
-  args = JSON.parse(args)
+ipcMain.on('hangman-words-get-all-languages', async (event) => {
 
   const data = await databaseQuerys.getAllLanguages()
 
   event.reply('hangman-words-get-all-languages-reply', data)
+})
+
+//Add to database the initial pack of words
+
+ipcMain.on('add-database-with-pack-words', async (event, args) => {
+  args = JSON.parse(args)
+  console.log(args)
+
+  const data = await databaseQuerys.bulkAddPackWords(args)
+  console.log(data)
+
+  event.reply('add-database-with-pack-words-reply', data)
 })

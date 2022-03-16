@@ -4,10 +4,10 @@ async function addCategory(language, category, firstWord) {
     const db = await initializeAndGetConnection()
 
     const searchCategoryOnDatabase = db
-        .get(`hangmanWords.${language}`)
+        .get(`hangmanWords.${language}.${category}`)
         .value()
 
-    if (!searchCategoryOnDatabase[category]) {
+    if (!searchCategoryOnDatabase) {
 
         try {  
             const dbState = await db.getState()

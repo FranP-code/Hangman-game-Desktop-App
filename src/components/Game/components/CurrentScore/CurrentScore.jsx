@@ -6,15 +6,16 @@ const CurrentScore = ({currentScore, language}) => {
 
     React.useEffect(() => {
 
-        if (language === 'spanish') {
-            setText('Puntuación: ')
-        }
+        // if (language === 'spanish') {
+        //     setText('Puntuación: ')
+        // }
         
-        if (language === 'english') {
-            setText('Current Score: ')
-        }
+        // if (language === 'english') {
+        //     setText('Current Score: ')
+        // }
+        setText('Current Score: ')
 
-    })
+    }, [])
 
     return (
         <div className='current-score'>

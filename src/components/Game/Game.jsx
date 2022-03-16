@@ -1,30 +1,26 @@
 import React, {useState} from "react";
 import CurrentScore from "./components/CurrentScore/CurrentScore";
 import Hangman from "./components/Hangman/Hangman";
-
-//import PuzzleWord from "./components/Hangman/PuzzleWord/PuzzleWord";
 import Victory from "./components/Victory && Defeat/Victory";
 import Defeat from "./components/Victory && Defeat/Defeat";
 import Loading from "./components/Loading/Loading";
 import AlmacenateCurrentScore from "../../Storage Scripts/AlmacenateCurrentScore";
-import DetermineUserLanguage from "../../General Scripts/DetermineUserLanguage";
 import Categories from "./components/Categories/Categories";
-import ChangeTitle from "../../General Scripts/ChangeTitle";
 import AlmacenateCategory from "../../Storage Scripts/AlmacenateCategory";
 import { RecoveryCurrentScore } from "../../Storage Scripts/RecoveryCurrentScore";
 import { RecoveryCurrentCategory } from "../../Storage Scripts/RecoveryCurrentCategory";
-import { RecoveryCurrentLanguage } from "../../Storage Scripts/RecoveryCurrentLanguage";
 import { AlmacenateLanguage } from "../../Storage Scripts/AlmacenateLanguage";
 import Word from "./components/Word/Word";
 import LettersRegistered from "./components/LettersRegistered/LettersRegistered";
 import alphabet from "../../General Scripts/alphabet"
 import checkVictory from "../../General Scripts/checkVictory";
 import checkDefeat from "../../General Scripts/checkDefeat";
-import BringTheWords from "../../Firebase Querys/BringTheWord";
 import getWidthScreenUser from "../../General Scripts/getWidthScreenUser";
 import LetterInput from "./components/Letter Input/LetterInput";
 import introducedLetterSound from './sound/Letter introduced.mp3';
 import AppHeader from "./components/AppHeader/AppHeader";
+import capitalize from "../../General Scripts/Capilazate";
+import AdjustHeightCategories from "./components/Categories/Scripts/AdjustHeightCategories";
 
 const { ipcRenderer } = window.require('electron')
 
@@ -38,9 +34,11 @@ function Game() {
   const [correctLetters, setCorrectLetters] = useState([])
   const [lettersRegistered, setLettersRegistered] = useState([])
   
-  const [language, setLanguage] = useState('english')
+  const [listOflanguages, setListOfLanguages] = React.useState([])
+  const [language, setLanguage] = useState('')
   const [languageIsReady, setLanguageIsReady] = useState(false)
 
+  const [categoriesList, setCategoriesList] = React.useState(false)
   const [category, setCategory] = useState(false)
   const [categoryIsReady, setcategoryIsReady] = useState(false)
 
@@ -52,10 +50,14 @@ function Game() {
 
   const [displayCategories, setDisplayCategories] = useState(false)
 
-  const getRandomWord = async () => {
+  const [stretch, setStrech] = React.useState(false)
+
+  const getRandomWord = async (language) => {
 
     if (!displayApp && selectedWord === '') {
-      setSelectedWord('a')
+      setSelectedWord('default')
+
+      console.log(language);
 
       const ipcArgs = JSON.stringify({
         language: language
@@ -65,7 +67,9 @@ function Game() {
 
       ipcRenderer.once('hangman-words-get-random-word-reply', (event, arg) => {
 
-        setSelectedWord(arg)
+        console.log(arg);
+
+        setSelectedWord(arg.toLowerCase())
       })
 
       setDisplayApp(true)
@@ -77,18 +81,11 @@ function Game() {
     
     RecoveryCurrentCategory(setCategory)
     setcategoryIsReady(true)
-    
-    DetermineUserLanguage(setLanguage)
-    RecoveryCurrentLanguage(setLanguage)
+
     setLanguageIsReady(true)
-    
-    ChangeTitle(language)
+
     setLanguageIsReady(true)
     getWidthScreenUser(setMobileUser)
-
-    if (!displayApp && selectedWord === '' && categoryIsReady && languageIsReady) {
-      getRandomWord()
-    }
 
   }, [categoryIsReady])
 
@@ -164,6 +161,38 @@ function Game() {
     return () => window.removeEventListener('resize', () => getWidthScreenUser(setMobileUser))
   }, [])
 
+  React.useEffect(() => {
+    // Get languages
+
+    ipcRenderer.send('hangman-words-get-all-languages')
+
+    ipcRenderer.once('hangman-words-get-all-languages-reply', (event, arg) => {
+
+      setListOfLanguages(arg)
+      setLanguage(arg[0])
+
+      const language = arg[0]
+      // Get categories
+
+      console.log(language)
+
+      const ipcArgs = JSON.stringify({
+        language
+      })
+  
+      ipcRenderer.send('hangman-words-get-all-categories', ipcArgs)
+      
+      ipcRenderer.once('hangman-words-get-all-categories-reply', (event, arg) => {
+
+        const categories = arg.map(doc => {return {text: capitalize(doc.text), image: doc.image}})
+        setCategoriesList(categories)
+        AdjustHeightCategories(categories, setStrech)
+      })
+      
+      getRandomWord(language)
+    })
+  }, [])
+
   if (endOfGame) {
     
     setTimeout(() => {
@@ -193,7 +222,7 @@ function Game() {
                 languageIsReady ?
                 
                 <div className='categories-container'>
-                  <Categories currentScore={currentScore} displayCategories={displayCategories} AppLanguage={language} category={category} setCategory={setCategory} categoryIsReady={categoryIsReady} setLanguage={setLanguage}/>
+                  <Categories stretch={stretch} categories={categoriesList} languages={listOflanguages} currentScore={currentScore} displayCategories={displayCategories} AppLanguage={language} category={category} setCategory={setCategory} categoryIsReady={categoryIsReady} setLanguage={setLanguage}/>
                 </div>
 
               :null

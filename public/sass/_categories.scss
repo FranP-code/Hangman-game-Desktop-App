@@ -34,7 +34,7 @@
             font-size: 22pt;
 
             border: none;
-            border-radius: 10px;
+            border-radius: 6px;
 
             text-align: center;
             text-align-last: center;
@@ -49,6 +49,8 @@
                 width: 4vw;
             }
 
+            cursor: pointer;
+
             @mixin backgroundAndHoverDefiner($buttonColor, $textColor: #000) {
 
                 color: $textColor;
@@ -56,7 +58,6 @@
                 background-color: $buttonColor; 
                 border: adjust-color($color: $buttonColor, $blackness: 3%, $alpha: 1.0) solid 2px;
 
-                cursor: pointer;
 
                 transition: 0.4s ease-in-out;
                 
@@ -76,38 +77,6 @@
                 $buttonColor: #E96363;
 
                 @include backgroundAndHoverDefiner($buttonColor);
-            }
-
-            &.Cities, &.Ciudades {
-                $buttonColor: #5f9ea0;
-
-                @include backgroundAndHoverDefiner($buttonColor);
-            }
-
-            &.Pokemons {
-                $buttonColor: #ffcb05;
-
-                @include backgroundAndHoverDefiner($buttonColor);
-            }
-
-            &.Programming.Languages, &.Lenguajes.De.Programación {
-                $buttonColor: #e46f01;
-                $textColor: #fff;
-
-                @include backgroundAndHoverDefiner($buttonColor, $textColor);
-            }
-
-            &.Animals, &.Animales {
-                $buttonColor: #efa482;
-
-                @include backgroundAndHoverDefiner($buttonColor)
-            }
-
-            &.Countries, &.Países {
-                $buttonColor: #9f0000;
-                $textColor: #fff;
-
-                @include backgroundAndHoverDefiner($buttonColor, $textColor);
             }
 
             &.Random {

@@ -24,6 +24,7 @@ ipcMain.on('hangman-words-querys-get-categories', async (event, arg) => {
 ipcMain.on('hangman-words-querys-add-words-array', async (event, arg) => {
     
     arg = JSON.parse(arg)
+    console.log(arg)
     /**
      * arg: {
      *  userData: {
@@ -215,4 +216,33 @@ ipcMain.on('hangman-words-querys-edit-word', async (event, arg) => {
     const response = await editWord()
 
     event.reply('hangman-words-querys-edit-word-reply', response)
+})
+
+//! Add Language
+ipcMain.on('hangman-words-querys-add-language', async (event, arg) => {
+    arg = JSON.parse(arg)
+    console.log(arg)
+
+    /**
+     * language: string,
+     * userData: {
+     *  accessToken: string
+     * }
+     */
+
+    async function addLanguage() {
+        //Check user token
+        const checkTokenResponse = await checkToken(arg.userData.accessToken)
+
+        if (checkTokenResponse.status === "error") {
+            return checkTokenResponse
+        }
+
+        //Execute add language query
+        return await databaseQuerys.addLanguage(arg.language)
+    }
+
+    const response = await addLanguage()
+
+    event.reply('hangman-words-querys-add-language-reply', response)
 })

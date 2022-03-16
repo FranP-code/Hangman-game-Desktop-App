@@ -1,0 +1,37 @@
+.preview-words {
+    width: 93vw;
+    
+    margin-top: 2vh;
+
+    display: flex;
+
+    .language {
+
+        .category {
+            
+            margin-top: 1vh;
+            margin-left: 1vw;
+
+            .title {
+                display: flex;
+
+                img {
+                    width: 1.5em;
+                    height: 1.5em;
+                    margin-right: 0.5vw;
+                }
+            }
+
+            ul {
+                
+                width: 20vw;
+
+                margin-top: 0;
+                
+                li {
+                    width: 20vw;
+                }
+            }
+        }
+    }
+}

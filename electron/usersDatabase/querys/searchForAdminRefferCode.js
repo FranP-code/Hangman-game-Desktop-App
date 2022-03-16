@@ -7,6 +7,22 @@ async function searchForAdminRefferCode(submitedAdminRefferCode) {
 
     console.log(users)
 
+    if (users.length === 0) {
+        return {
+            status: "success",
+            user: {
+                id: "self"
+            }
+        }
+    }
+
+    if (!submitedAdminRefferCode) {
+        return {
+            status: "error",
+            message: "Reffer code don't introduced"
+        }
+    }
+
     for (let i = 0; i < users.length; i++) {
 
         console.log(users[i])
@@ -26,7 +42,8 @@ async function searchForAdminRefferCode(submitedAdminRefferCode) {
     //In case don't find user with that reffer code...
 
     return {
-        success: false
+        status: "error",
+        message: "Reffer code don't found"
     }
 }
 

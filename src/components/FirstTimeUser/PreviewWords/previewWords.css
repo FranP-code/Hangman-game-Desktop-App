@@ -1,0 +1,24 @@
+.preview-words {
+  width: 93vw;
+  margin-top: 2vh;
+  display: flex;
+}
+.preview-words .language .category {
+  margin-top: 1vh;
+  margin-left: 1vw;
+}
+.preview-words .language .category .title {
+  display: flex;
+}
+.preview-words .language .category .title img {
+  width: 1.5em;
+  height: 1.5em;
+  margin-right: 0.5vw;
+}
+.preview-words .language .category ul {
+  width: 20vw;
+  margin-top: 0;
+}
+.preview-words .language .category ul li {
+  width: 20vw;
+}/*# sourceMappingURL=previewWords.css.map */

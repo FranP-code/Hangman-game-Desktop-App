@@ -16,15 +16,17 @@ const Victory = ({currentScore, setCurrentScore, language}) => {
 
         setCurrentScore(parseInt(currentScore) + 1)
 
-        if (language === 'english') {
+        // if (language === 'english') {
 
-            setText('VICTORY')
-        }
+        //     setText('VICTORY')
+        // }
 
-        if (language === 'spanish') {
+        // if (language === 'spanish') {
 
-            setText('VICTORIA')
-        }
+        //     setText('VICTORIA')
+        // }
+
+        setText('VICTORY')
 
         playAudio()
         

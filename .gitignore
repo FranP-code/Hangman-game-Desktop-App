@@ -8,5 +8,10 @@ electron/usersDatabase/users.json
 
 DB_HangmanWords.json
 DB_Users.json
+backup.json
+backup
 
 public/Hover.css
+
+public/sass/index.css
+public/sass/index.css.map

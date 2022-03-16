@@ -34,3 +34,77 @@ html, body {
 @import './info-account/info-account';
 @import 'footer';
 @import 'credits';
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+}
+
+@mixin textsBreakpoints($fontSize, $sub_TitleTwo: 20pt, $sub_titleThree: 30pt, $sub_TitleFour: 20pt, $sub_TitleFive: 18pt) {
+    
+    h1.title-one {
+    
+        font-size: $fontSize;
+    }
+    
+    h2.title-two {
+    
+        font-size: calc($fontSize - $sub_TitleTwo);
+    }
+
+    h3.title-three {
+
+        font-size: calc($fontSize - $sub_titleThree);
+    }
+
+    h4.title-four {
+        font-size: calc($fontSize - $sub_TitleFour);
+    }
+
+    h5.title-five {
+        font-size: calc($fontSize - $sub_TitleFive);
+    }
+}
+
+@media (min-width: 1800px) {
+
+    $fontSize: 50pt;
+    $sub_TitleTwo: 14pt;
+    $sub_titleThree: 18pt;
+    $sub_titleFour: 20pt;
+    $sub_titleFive: 22pt;
+
+    @include textsBreakpoints($fontSize, $sub_TitleTwo, $sub_titleThree, $sub_titleFour, $sub_titleFive);
+}
+
+@media (max-width: 1800px) {
+
+    $fontSize: 45pt;
+    $sub_TitleTwo: 12pt;
+    $sub_titleThree: 16pt;
+    $sub_titleFour: 18pt;
+    $sub_titleFive: 20pt;
+
+    @include textsBreakpoints($fontSize, $sub_TitleTwo, $sub_titleThree, $sub_titleFour, $sub_titleFive);
+}
+
+@media (max-width: 900px) {
+
+    $fontSize: 40pt;
+    $sub_TitleTwo: 10pt;
+    $sub_titleThree: 15pt;
+    $sub_titleFour: 17pt;
+    $sub_titleFive: 21pt;
+
+    @include textsBreakpoints($fontSize, $sub_TitleTwo, $sub_titleThree, $sub_titleFour, $sub_titleFive);
+}
+
+@media (max-width: 640px) {
+
+    $fontSize: 33pt;
+    $sub_TitleTwo: 10pt;
+    $sub_titleThree: 15pt;
+    $sub_titleFour: 17pt;
+    $sub_titleFive: 21pt;
+
+    @include textsBreakpoints($fontSize, $sub_TitleTwo, $sub_titleThree, $sub_titleFour, $sub_titleFive);
+}

@@ -1,0 +1,27 @@
+#navigator {
+
+    width: 100vw;
+    padding: 0vh 5vw 2.5vh 5vw;
+    
+    display: flex;
+    justify-content: space-between;
+    
+    box-sizing: border-box;
+
+    .arrow {
+        svg {
+
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            fill: #687c94;
+        }
+        &.blocked {
+            svg {
+
+                cursor: not-allowed;
+                fill: #b1b1b1;
+            }
+        }
+    }
+}

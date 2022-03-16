@@ -3,15 +3,20 @@ const FileSync = require('lowdb/adapters/FileSync')
 
 let db
 
-async function createConnection() {
+async function createConnection(initialData) {
     const adapter = new FileSync("DB_HangmanWords.json")
 
     db = low(adapter)
-    db.defaults({hangmanWords: {english: {}, spanish: {}}}).write()
+
+    if (!initialData) {
+        db.defaults({hangmanWords: {}}).write()
+    } else {
+        db.defaults(initialData).write()
+    }
 }
 
-async function initializeAndGetConnection() {
-    await createConnection()
+async function initializeAndGetConnection(initialData) {
+    await createConnection(initialData)
 
     return await db
 }

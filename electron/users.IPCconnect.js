@@ -25,8 +25,6 @@ function inputsValidation(arg) {
     //I know, it's too little validation, but, if you break the app for change the required of HTML elements, it's your problem...
 }
 
-
-
 ipcMain.on('users-add-user', async (event, arg) => {
     
     async function addUser() {
@@ -36,7 +34,7 @@ ipcMain.on('users-add-user', async (event, arg) => {
 
         /**
          * arg = {
-         *  name: username
+         *  username: username
          *  password: password
          *  confirmPassword: password
          *  adminReferredCode: adminReferredCode
@@ -51,8 +49,8 @@ ipcMain.on('users-add-user', async (event, arg) => {
 
         // Search for reffer code on database
         const authorization = await databaseQuerys.searchForAdminRefferCode(arg.adminReferredCode)
-        if (authorization.status !== 'success') {   
-            return { status: "error", message: "Admin reffer code not valid"}
+        if (authorization.status === 'error') {   
+            return authorization
         }
 
         // Encrypt user data
@@ -63,7 +61,7 @@ ipcMain.on('users-add-user', async (event, arg) => {
         const cryptr = new Cryptr(process.env.CRYPTR_SECRET_KEY);
         const userData = {}
 
-        userData.username = arg.name
+        userData.username = arg.username
         userData.password = await bcrypt.hash(arg.password, parseInt(process.env.BYCRYPT_SALT_ROUNDS))
         userData.adminRefferCode = cryptr.encrypt(uuidv4())
         userData.refferedByUser = {id: authorization.user.id}

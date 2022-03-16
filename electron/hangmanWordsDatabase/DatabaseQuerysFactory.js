@@ -10,6 +10,8 @@ const getAllCategorys = require('./querys/getAllCategorys.js')
 const getAllLanguages = require('./querys/getAllLanguages.js')
 const addCategory = require('./querys/addCategory.js')
 const deleteCategory = require('./querys/deleteCategory.js')
+const bulkAddPackWords = require('./querys/bulkAddPackWords.js')
+const addLanguage = require('./querys/addLanguage.js')
 
 function DatabaseQuerysFactory() {
 
@@ -25,7 +27,9 @@ function DatabaseQuerysFactory() {
         getAllCategorys,
         getAllLanguages,
         addCategory,
-        deleteCategory
+        deleteCategory,
+        bulkAddPackWords,
+        addLanguage
     }
 }
 

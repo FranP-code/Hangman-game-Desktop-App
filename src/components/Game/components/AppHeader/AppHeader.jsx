@@ -9,17 +9,20 @@ const AppHeader = ({language, category, displayCategories, setDisplayCategories,
 
     React.useEffect( () => {
 
-        if (language === 'english') {
+        // if (language === 'english') {
             
-            setTitle('Hangman game')
-            setCategoryText('Select category')
-        }
+        //     setTitle('Hangman game')
+        //     setCategoryText('Select category')
+        // }
 
-        if (language === 'spanish') {
+        // if (language === 'spanish') {
 
-            setTitle('Ahorcado')
-            setCategoryText('Seleccionar categoría')
-        }
+        //     setTitle('Ahorcado')
+        //     setCategoryText('Seleccionar categoría')
+        // }
+
+        setTitle('Hangman game')
+        setCategoryText('Select category')
 
         if (category) {
 

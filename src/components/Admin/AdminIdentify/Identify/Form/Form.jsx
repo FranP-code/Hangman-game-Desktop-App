@@ -14,7 +14,7 @@ const Form = ({history}) => {
 
     const [option, setOption] = useState('login')
 
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [adminReferredCode, setAdminReferredCode] = useState('')
@@ -34,7 +34,7 @@ const Form = ({history}) => {
         e.preventDefault()
 
         const ipcArgs = JSON.stringify({
-            username: name,
+            username,
             password
         })
 
@@ -64,7 +64,7 @@ const Form = ({history}) => {
         e.preventDefault()
 
         const ipcArgs = JSON.stringify({
-            name,
+            username,
             password,
             confirmPassword,
             adminReferredCode
@@ -125,8 +125,8 @@ const Form = ({history}) => {
                             type="text"
                             placeholder="User"
                             required
-                            onChange={(e) => setName(e.target.value)}
-                            value={name} 
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username} 
                         />
                         <input
                             type="password"
@@ -153,8 +153,8 @@ const Form = ({history}) => {
                             type="text"
                             placeholder="Name"
                             required
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
                         />
                         <input
                             type="password"

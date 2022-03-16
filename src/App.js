@@ -23,70 +23,94 @@ import PokemonScripts from "./components/Pokemon Scripts/PokemonScripts";
 import ReactToastContainer from "./ReactToastContainer";
 
 import UserDataContext from "./contexts/UserDataContext";
+import Loading from "./components/Loading/Loading";
+import FirstTimeUser from "./components/FirstTimeUser/FirstTimeUser";
+const { ipcRenderer } = window.require('electron')
 
 function App() {
 
   const [userData, setUserData] = useState({})
+  const [firstTimeUser, setFirstTimeUser] = useState(true)
+  const [loading, setLoading] = useState(true)
+
+  React.useEffect(() => {
+    ipcRenderer.send('check-first-time-user')
+    ipcRenderer.on('check-first-time-user-reply', (event, arg) => {
+      console.log(arg)
+      setFirstTimeUser(arg)
+      setLoading(false)
+    })
+  }, [])
 
   return (
     <>
       <ReactToastContainer />
+      {
+        loading ?
+          <Loading />
+        : null
+      }
       <UserDataContext.Provider value={{userData, setUserData}}>
-      <Router>
-        <>
-          <Switch>
+        {
+          firstTimeUser ?
+            <FirstTimeUser setFirstTimeUser={setFirstTimeUser}/>
+        : 
+          <Router>
+            <>
+              <Switch>
 
-            {/* <Route path='/pokemon'>
+                {/* <Route path='/pokemon'>
 
-              <PokemonScripts />
+                  <PokemonScripts />
 
-            </Route> */}
+                </Route> */}
 
-            <Route path="/credits-page">
+                <Route path="/credits-page">
 
-              <Credits />
-              {/* <Footer /> */}
+                  <Credits />
+                  {/* <Footer /> */}
 
-            </Route>
+                </Route>
 
-            <Route path="/my-account">
-            
-              <AccountInfo />
-              <Footer />
+                <Route path="/my-account">
+                
+                  <AccountInfo />
+                  <Footer />
 
-            </Route>
+                </Route>
 
-            <Route path="/password-recovery">
+                <Route path="/password-recovery">
 
-              <PasswordRecovery />
-              <Footer />
+                  <PasswordRecovery />
+                  <Footer />
 
-            </Route>
+                </Route>
 
-            <Route path='/admin-place/demo'>
+                <Route path='/admin-place/demo'>
 
-              <DemoControlPanel />
+                  <DemoControlPanel />
 
-            </Route>
+                </Route>
 
-              <Route path='/admin-place'>
-                <ControlPanel/>
-              </Route>
-              
-              <Route path='/identify'>
-                <AdminIdentify/>
-                <Footer />
-              </Route>
+                  <Route path='/admin-place'>
+                    <ControlPanel/>
+                  </Route>
+                  
+                  <Route path='/identify'>
+                    <AdminIdentify/>
+                    <Footer />
+                  </Route>
 
-            <Route path="/">
+                <Route path="/">
 
-              <Game />
-              <Footer />
+                  <Game />
+                  <Footer />
 
-            </Route>
-          </Switch>
-        </>
-    </Router>
+                </Route>
+              </Switch>
+            </>
+        </Router>
+      }
     </UserDataContext.Provider>
     </>
 )}

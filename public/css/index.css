@@ -1,4 +1,3 @@
-@charset "UTF-8";
 html, body {
   margin: 0;
   padding: 0;
@@ -250,13 +249,14 @@ header .account-preview .full-name.show {
   font-family: Helvetica, sans-serif;
   font-size: 22pt;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
   text-align: center;
   text-align-last: center;
   -moz-text-align-last: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 }
 .categories-container .categories button img, .categories-container .categories button .blank-space, .categories-container .categories select img, .categories-container .categories select .blank-space {
   height: 4vw;
@@ -266,7 +266,6 @@ header .account-preview .full-name.show {
   color: #000;
   background-color: #E96363;
   border: #e16363 solid 2px;
-  cursor: pointer;
   transition: 0.4s ease-in-out;
 }
 .categories-container .categories button.Select:hover, .categories-container .categories select.Select:hover {
@@ -277,86 +276,10 @@ header .account-preview .full-name.show {
   animation: bounce;
   animation-duration: 0.5s;
 }
-.categories-container .categories button.Cities, .categories-container .categories button.Ciudades, .categories-container .categories select.Cities, .categories-container .categories select.Ciudades {
-  color: #000;
-  background-color: #5f9ea0;
-  border: #5f9798 solid 2px;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Cities:hover, .categories-container .categories button.Ciudades:hover, .categories-container .categories select.Cities:hover, .categories-container .categories select.Ciudades:hover {
-  background-color: #7fb1b3;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Cities:hover img, .categories-container .categories button.Ciudades:hover img, .categories-container .categories select.Cities:hover img, .categories-container .categories select.Ciudades:hover img {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
-.categories-container .categories button.Pokemons, .categories-container .categories select.Pokemons {
-  color: #000;
-  background-color: #ffcb05;
-  border: #f7c505 solid 2px;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Pokemons:hover, .categories-container .categories select.Pokemons:hover {
-  background-color: #ffd638;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Pokemons:hover img, .categories-container .categories select.Pokemons:hover img {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
-.categories-container .categories button.Programming.Languages, .categories-container .categories button.Lenguajes.De.Programación, .categories-container .categories select.Programming.Languages, .categories-container .categories select.Lenguajes.De.Programación {
-  color: #fff;
-  background-color: #e46f01;
-  border: #dc6b01 solid 2px;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Programming.Languages:hover, .categories-container .categories button.Lenguajes.De.Programación:hover, .categories-container .categories select.Programming.Languages:hover, .categories-container .categories select.Lenguajes.De.Programación:hover {
-  background-color: #fe881a;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Programming.Languages:hover img, .categories-container .categories button.Lenguajes.De.Programación:hover img, .categories-container .categories select.Programming.Languages:hover img, .categories-container .categories select.Lenguajes.De.Programación:hover img {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
-.categories-container .categories button.Animals, .categories-container .categories button.Animales, .categories-container .categories select.Animals, .categories-container .categories select.Animales {
-  color: #000;
-  background-color: #efa482;
-  border: #e7a282 solid 2px;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Animals:hover, .categories-container .categories button.Animales:hover, .categories-container .categories select.Animals:hover, .categories-container .categories select.Animales:hover {
-  background-color: #f5c5af;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Animals:hover img, .categories-container .categories button.Animales:hover img, .categories-container .categories select.Animals:hover img, .categories-container .categories select.Animales:hover img {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
-.categories-container .categories button.Countries, .categories-container .categories button.Países, .categories-container .categories select.Countries, .categories-container .categories select.Países {
-  color: #fff;
-  background-color: #9f0000;
-  border: #970000 solid 2px;
-  cursor: pointer;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Countries:hover, .categories-container .categories button.Países:hover, .categories-container .categories select.Countries:hover, .categories-container .categories select.Países:hover {
-  background-color: #d20000;
-  transition: 0.4s ease-in-out;
-}
-.categories-container .categories button.Countries:hover img, .categories-container .categories button.Países:hover img, .categories-container .categories select.Countries:hover img, .categories-container .categories select.Países:hover img {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
 .categories-container .categories button.Random, .categories-container .categories select.Random {
   color: #000;
   background-color: #4285f4;
   border: #4282ec solid 2px;
-  cursor: pointer;
   transition: 0.4s ease-in-out;
 }
 .categories-container .categories button.Random:hover, .categories-container .categories select.Random:hover {
@@ -1048,6 +971,95 @@ header.demo h1 span.demoSpan:hover, header.demo h1 span.demoSpan:focus, header.d
 .credits {
   font-family: "Helveltica", sans-serif;
   font-weight: 400;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+@media (min-width: 1800px) {
+  h1.title-one {
+    font-size: 50pt;
+  }
+
+  h2.title-two {
+    font-size: 36pt;
+  }
+
+  h3.title-three {
+    font-size: 32pt;
+  }
+
+  h4.title-four {
+    font-size: 30pt;
+  }
+
+  h5.title-five {
+    font-size: 28pt;
+  }
+}
+@media (max-width: 1800px) {
+  h1.title-one {
+    font-size: 45pt;
+  }
+
+  h2.title-two {
+    font-size: 33pt;
+  }
+
+  h3.title-three {
+    font-size: 29pt;
+  }
+
+  h4.title-four {
+    font-size: 27pt;
+  }
+
+  h5.title-five {
+    font-size: 25pt;
+  }
+}
+@media (max-width: 900px) {
+  h1.title-one {
+    font-size: 40pt;
+  }
+
+  h2.title-two {
+    font-size: 30pt;
+  }
+
+  h3.title-three {
+    font-size: 25pt;
+  }
+
+  h4.title-four {
+    font-size: 23pt;
+  }
+
+  h5.title-five {
+    font-size: 19pt;
+  }
+}
+@media (max-width: 640px) {
+  h1.title-one {
+    font-size: 33pt;
+  }
+
+  h2.title-two {
+    font-size: 23pt;
+  }
+
+  h3.title-three {
+    font-size: 18pt;
+  }
+
+  h4.title-four {
+    font-size: 16pt;
+  }
+
+  h5.title-five {
+    font-size: 12pt;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

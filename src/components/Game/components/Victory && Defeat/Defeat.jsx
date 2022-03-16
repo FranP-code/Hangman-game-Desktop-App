@@ -14,15 +14,17 @@ const Defeat = ({language}) => {
     
         }
 
-        if (language === 'english') {
+        // if (language === 'english') {
 
-            setText('DEFEAT')
-        }
+        //     setText('DEFEAT')
+        // }
 
-        if (language === 'spanish') {
+        // if (language === 'spanish') {
 
-            setText('PERDISTE')
-        }
+        //     setText('PERDISTE')
+        // }
+
+        setText('DEFEAT')
 
         playAudio()
         

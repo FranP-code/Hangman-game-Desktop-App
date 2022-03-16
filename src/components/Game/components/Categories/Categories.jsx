@@ -9,12 +9,8 @@ import AdjustHeightCategories from "./Scripts/AdjustHeightCategories"
 
 const { ipcRenderer } = window.require('electron')
 
-const Categories = ({AppLanguage, displayCategories, category, setCategory, currentScore, setLanguage}, props) => {
+const Categories = ({AppLanguage, displayCategories, category, setCategory, currentScore, setLanguage, languages, categories, stretch}) => {
 
-    const [categories, setCategories] = React.useState(false)
-    const [languages, setLanguages] = React.useState([])
-
-    const [stretch, setStrech] = React.useState(false)
 
     const changeCategory = (categorie) => {
 
@@ -42,36 +38,6 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
 
         window.location.reload(true)
     }
-
-    React.useEffect (() => {
-
-        // Get categories
-
-        console.log(AppLanguage)
-
-        const ipcArgs = JSON.stringify({
-            language: AppLanguage
-        })
-    
-        ipcRenderer.send('hangman-words-get-all-categories', ipcArgs)
-        
-        ipcRenderer.once('hangman-words-get-all-categories-reply', (event, arg) => {
-
-            const categories = arg.map(doc => {return {text: capitalize(doc.text), image: doc.image}})
-            setCategories(categories)
-            AdjustHeightCategories(categories, setStrech)
-        })
-
-        // Get languages
-
-        ipcRenderer.send('hangman-words-get-all-languages', ipcArgs)
-
-        ipcRenderer.once('hangman-words-get-all-languages-reply', (event, arg) => {
-
-            setLanguages(arg)
-        })
-
-    }, [])
 
     return (
         
@@ -105,9 +71,8 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
 
                         return (
                             <button
-                                className={ categorie.text }
                                 key={categorie.text}
-                                onClick={() => changeCategory(categorie)}
+                                onClick={() => changeCategory(categorie.text)}
                             >
 
                                 <img src={categorie.imageURL} alt={`${categorie.text} image`}/>
