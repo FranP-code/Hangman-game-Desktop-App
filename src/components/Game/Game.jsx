@@ -21,6 +21,7 @@ import introducedLetterSound from './sound/Letter introduced.mp3';
 import AppHeader from "./components/AppHeader/AppHeader";
 import capitalize from "../../General Scripts/Capilazate";
 import AdjustHeightCategories from "./components/Categories/Scripts/AdjustHeightCategories";
+import {RecoveryCurrentLanguage} from '../../Storage Scripts/RecoveryCurrentLanguage.js'
 
 const { ipcRenderer } = window.require('electron')
 
@@ -75,20 +76,6 @@ function Game() {
       setDisplayApp(true)
     }
   }
-  
-  React.useEffect(() => {    
-    RecoveryCurrentScore(setCurrentScore)
-    
-    RecoveryCurrentCategory(setCategory)
-    setcategoryIsReady(true)
-
-    setLanguageIsReady(true)
-
-    setLanguageIsReady(true)
-    getWidthScreenUser(setMobileUser)
-
-  }, [categoryIsReady])
-
 
   React.useEffect(() => {
     
@@ -162,6 +149,13 @@ function Game() {
   }, [])
 
   React.useEffect(() => {
+
+    RecoveryCurrentScore(setCurrentScore)
+    RecoveryCurrentCategory(setCategory)
+    const language = RecoveryCurrentLanguage(setLanguage)
+    console.log(language);
+    getWidthScreenUser(setMobileUser)
+
     // Get languages
 
     ipcRenderer.send('hangman-words-get-all-languages')
@@ -169,15 +163,23 @@ function Game() {
     ipcRenderer.once('hangman-words-get-all-languages-reply', (event, arg) => {
 
       setListOfLanguages(arg)
-      setLanguage(arg[0])
+      let languageSelection
 
-      const language = arg[0]
+      if (language === '') {
+
+        setLanguage(arg[0])
+        languageSelection = arg[0]
+
+      } else {
+        languageSelection = language
+      }
+
       // Get categories
 
-      console.log(language)
+      console.log(languageSelection)
 
       const ipcArgs = JSON.stringify({
-        language
+        language: languageSelection
       })
   
       ipcRenderer.send('hangman-words-get-all-categories', ipcArgs)
@@ -189,7 +191,7 @@ function Game() {
         AdjustHeightCategories(categories, setStrech)
       })
       
-      getRandomWord(language)
+      getRandomWord(languageSelection)
     })
   }, [])
 
@@ -217,16 +219,10 @@ function Game() {
             />
 
             <div className="game-container">
-              
-              {
-                languageIsReady ?
-                
-                <div className='categories-container'>
-                  <Categories stretch={stretch} categories={categoriesList} languages={listOflanguages} currentScore={currentScore} displayCategories={displayCategories} AppLanguage={language} category={category} setCategory={setCategory} categoryIsReady={categoryIsReady} setLanguage={setLanguage}/>
-                </div>
 
-              :null
-              }
+              <div className='categories-container'>
+                <Categories stretch={stretch} categories={categoriesList} languages={listOflanguages} currentScore={currentScore} displayCategories={displayCategories} AppLanguage={language} category={category} setCategory={setCategory} categoryIsReady={categoryIsReady} setLanguage={setLanguage}/>
+              </div>
 
               <div className='column-1'>
                 <Hangman

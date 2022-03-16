@@ -22,7 +22,11 @@ const PreviewWords = ({previewWords}) => {
                             Object.entries(initialWordsPack.hangmanWords[language]).map(category => (
                                 <div key={category[0]} className="category">
                                     <div className="title">
-                                        <img src={category.icon} alt={category[0] + 'icon'}/>
+                                        {
+                                            category.icon ?
+                                                <img src={category.icon} alt={category[0] + 'icon'}/>
+                                            : null
+                                        }
                                         {/* <img src={"https://raw.githubusercontent.com/voodootikigod/logo.js/master/js.png"} alt={category[0] + 'icon'}/> */}
                                         <h2>{Capitalize(category[0])}</h2>
                                     </div>

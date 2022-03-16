@@ -12,8 +12,6 @@ const { ipcRenderer } = window.require('electron')
 const DeleteCategory = () => {
     const context = useContext(UserDataContext)
 
-    const [loading, setLoading] = React.useState(true)
-
     const [data, setData] = React.useState(false)
 
     const [languages, setLanguages] = useState([])
@@ -27,7 +25,6 @@ const DeleteCategory = () => {
         ipcRenderer.on('hangman-words-querys-get-languages-reply', (event, arg) => {
             console.log(arg)
             setLanguages(arg)
-            setLoading(false)
         })
     }
 
@@ -46,7 +43,6 @@ const DeleteCategory = () => {
     const submitDeleteCategory = async (e) => {
 
         e.preventDefault()
-        setLoading(true)
 
         console.log(categoryInput)
         console.log(languageInput)
@@ -74,7 +70,6 @@ const DeleteCategory = () => {
             ipcRenderer.send('hangman-words-querys-delete-category', ipcArgs)
             ipcRenderer.once('hangman-words-querys-delete-category-reply', (event, arg) => {
                 Toast(arg.status, arg.message)
-                setLoading(false)
 
                 setCategoryInput('')
                 setLanguageInput('')
@@ -93,36 +88,31 @@ const DeleteCategory = () => {
                     <Messages data={data} />        
                 : null
             }
-            {
-                loading ?
-                    <Loading />
-                :
-                <div className="action-form delete-category">
-                    <form
-                        onSubmit={(e) => submitDeleteCategory(e)}
+            <div className="action-form delete-category">
+                <form
+                    onSubmit={(e) => submitDeleteCategory(e)}
+                >
+                    <select
+                        onChange={(e) => {
+                            getCategories(e.target.value)
+                        }}
                     >
-                        <select
-                            onChange={(e) => {
-                                getCategories(e.target.value)
-                            }}
-                        >
-                            <option value='default'>Select a language</option>
-                            {
-                                languages.map(language => <option key={language} value={language}>{capitalize(language)}</option>)
-                            }
-                        </select>
-                        <select
-                            onChange={(e) => setCategoryInput(e.target.value)}
-                        >
-                            <option value="default">Select a category</option>
-                            {
-                                categories.map(category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
-                            }
-                        </select>
-                        <input type="submit" value="Delete"/>
-                    </form>
-                </div>
-            }
+                        <option value='default'>Select a language</option>
+                        {
+                            languages.map(language => <option key={language} value={language}>{capitalize(language)}</option>)
+                        }
+                    </select>
+                    <select
+                        onChange={(e) => setCategoryInput(e.target.value)}
+                    >
+                        <option value="default">Select a category</option>
+                        {
+                            categories.map(category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
+                        }
+                    </select>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </div>
         </>
     )
 }

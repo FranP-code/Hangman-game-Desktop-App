@@ -1,8 +1,14 @@
 export const RecoveryCurrentLanguage = (setLanguage) => {
     
-    if (localStorage.getItem('language')) {
+  let language
+  
+  if (localStorage.getItem('language')) {
+    language = localStorage.getItem('language')
+    setLanguage(language)
+    localStorage.removeItem('language')
+    
+    return language
+  }
 
-        setLanguage(localStorage.getItem('language'))
-        localStorage.removeItem('language')
-      }
+  return ''
 }

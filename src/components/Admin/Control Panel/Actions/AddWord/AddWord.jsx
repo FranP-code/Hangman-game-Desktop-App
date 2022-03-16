@@ -16,7 +16,6 @@ const AddWord = () => {
 
     const context = useContext(UserDataContext)
 
-    const [loading, setLoading] = useState(true)
     const [languageList, setLanguageList] = useState([])
     const [categoryList, setCategoryList] = useState([])
 
@@ -33,8 +32,6 @@ const AddWord = () => {
         ipcRenderer.once('hangman-words-querys-get-languages-reply', (event, arg) => {
             console.log(arg)
             setLanguageList(arg)
-            // setCategoryList(arg.categories)
-            setLoading(false)
         })
         
     }, [])
@@ -56,7 +53,6 @@ const AddWord = () => {
     const submitInformation = async (e) => {
         
         e.preventDefault()
-        setLoading(true)
 
         setData(false)
 
@@ -66,7 +62,6 @@ const AddWord = () => {
                 sucess: false,
                 message: `Language is not supposed to be empty`
             })
-            await setLoading(false)
 
             return
         }
@@ -77,7 +72,6 @@ const AddWord = () => {
                 sucess: false,
                 message: `Category is not supposed to be empty`
             })
-            await setLoading(false)
 
             return
         }
@@ -88,7 +82,6 @@ const AddWord = () => {
                 sucess: false,
                 message: `Words is not supposed to be empty`
             })
-            await setLoading(false)
 
             return
         }
@@ -115,8 +108,6 @@ const AddWord = () => {
             setCategorySelection('')
             setWordsToAdd('')
             
-            setLoading(false)
-            
             Toast(arg.status, arg.message)
         })
     }
@@ -128,47 +119,42 @@ const AddWord = () => {
                     <Messages data={data} />        
                 : null
             }
-            {
-                loading ? 
-                    <Loading />
-                :
-                <div className="action-form add-word">
-                    <form
-                        onSubmit={(e) => submitInformation(e)}
+            <div className="action-form add-word">
+                <form
+                    onSubmit={(e) => submitInformation(e)}
+                >
+                    <select
+                        onChange={(e) => changeLanguage(e)}
+                        value={languageSelection}
                     >
-                        <select
-                            onChange={(e) => changeLanguage(e)}
-                            value={languageSelection}
-                        >
-                            <option value="default">Select language</option>
-                            {
-                                languageList.map( language => <option key={language} value={language}>{capitalize(language)}</option>)
-                            }
-                        </select>
-                        
-                        <select
-                            onChange={(e) => setCategorySelection(e.target.value)}
-                            value={categorySelection}
+                        <option value="default">Select language</option>
+                        {
+                            languageList.map( language => <option key={language} value={language}>{capitalize(language)}</option>)
+                        }
+                    </select>
+                    
+                    <select
+                        onChange={(e) => setCategorySelection(e.target.value)}
+                        value={categorySelection}
 
-                            disabled={languageSelection === false || languageSelection === 'default' ? true : false}
-                        >
-                            <option value="default">Select category</option>
-                            {
-                                categoryList.map( category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
-                            }
-                        </select>
-                        <textarea
-                            placeholder="Add the word/words separated by commas"
-                            cols="30" rows="10"
-                            onChange={(e) => setWordsToAdd(e.target.value)}
-                            value={wordsToAdd}
+                        disabled={languageSelection === false || languageSelection === 'default' ? true : false}
+                    >
+                        <option value="default">Select category</option>
+                        {
+                            categoryList.map( category => <option key={category.text} value={category.text}>{capitalize(category.text)}</option>)
+                        }
+                    </select>
+                    <textarea
+                        placeholder="Add the word/words separated by commas"
+                        cols="30" rows="10"
+                        onChange={(e) => setWordsToAdd(e.target.value)}
+                        value={wordsToAdd}
 
-                            disabled={categorySelection === false || categorySelection === 'default' ? true : false}
-                        />
-                        <input type="submit" value="Add Word(s)" />
-                    </form>
-                </div>
-            }   
+                        disabled={categorySelection === false || categorySelection === 'default' ? true : false}
+                    />
+                    <input type="submit" value="Add Word(s)" />
+                </form>
+            </div>  
         </>
     )
 }

@@ -28,11 +28,14 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
 
     const changeLanguage = (language) => {
 
+        console.log(language);
+
         language = language.toLowerCase()
         setLanguage(language)
 
         localStorage.setItem('language', language)
 
+        AlmacenateLanguage(language)
         AlmacenateCurrentScore(currentScore)
         AlmacenateCategory(category)
 
@@ -50,7 +53,7 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
                     
                         languages.map((language) => {
 
-                            if (language === capitalize(AppLanguage)) {
+                            if (language === AppLanguage) {
                                 
                                 return <option key={language} value={language} selected > {language.toUpperCase()} </option>
                             } else {
@@ -67,15 +70,17 @@ const Categories = ({AppLanguage, displayCategories, category, setCategory, curr
                   
                     categories.map((categorie) => {
 
-                        console.log(categorie)
-
                         return (
                             <button
                                 key={categorie.text}
                                 onClick={() => changeCategory(categorie.text)}
                             >
+                                {
 
-                                <img src={categorie.imageURL} alt={`${categorie.text} image`}/>
+                                    categorie.imageURL ?
+                                        <img src={categorie.imageURL} alt={`${categorie.text} image`}/>
+                                    : <div className="blank-space"/>
+                                }
 
                                 <span className="text">
                                     { categorie.text.toUpperCase() }

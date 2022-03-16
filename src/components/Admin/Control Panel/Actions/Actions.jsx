@@ -1,5 +1,6 @@
 import React from 'react'
 import AddCategory from './AddCategory/AddCategory'
+import AddLanguage from './AddLanguage/AddLanguage';
 import AddWord from './AddWord/AddWord'
 import DeleteCategory from './DeleteCategory/DeleteCategory';
 import DeleteWord from './DeleteWord/DeleteWord';
@@ -10,7 +11,7 @@ const Actions = ({actualAction}) => {
     return (
         <>
             {
-                actualAction === 'Add Word(s)' ?
+                actualAction === 'Add Word' ?
                     <AddWord action={actualAction} />
                 : null
             }
@@ -32,6 +33,11 @@ const Actions = ({actualAction}) => {
             {
                 actualAction === 'Edit Word' ? 
                     <EditWord action={actualAction} />
+                : null
+            }
+            {
+                actualAction === 'Add Language' ?
+                    <AddLanguage action={actualAction} />
                 : null
             }
         </>

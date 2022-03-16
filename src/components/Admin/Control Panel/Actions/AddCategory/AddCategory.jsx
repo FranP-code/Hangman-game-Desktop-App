@@ -1,8 +1,4 @@
 import React, {useState, useRef, useContext} from 'react'
-import AddCategoryToFirebase from './Firebase Querys/AddCategoryToFirebase'
-import Loading from '../../../../Loading/Loading'
-import Messages from '../../../../Messages/Messages'
-import SendMeEmail from '../../Email/SendMeEmail'
 import capitalize from '../../Scripts/Capilazate'
 import Toast from '../../../Toast/Toast'
 import UserDataContext from '../../../../../contexts/UserDataContext'
@@ -14,8 +10,6 @@ const AddCategory = () => {
     const context = useContext(UserDataContext)
 
     const [languageList, setLanguageList] = useState([])
-
-    const [loading, setLoading] = useState(true)
     
     const languageInput = useRef('')
     const categoryInput = useRef('')
@@ -34,7 +28,6 @@ const AddCategory = () => {
         ipcRenderer.send('hangman-words-querys-add-category', ipcArgs)
         ipcRenderer.once('hangman-words-querys-add-category-reply', (event, arg) => {
             Toast(arg.status, arg.message)
-            setLoading(false)
         })
     }
 
@@ -49,37 +42,29 @@ const AddCategory = () => {
             firstWord.current.value = ''
             
             setLanguageList(arg)
-            setLoading(false)
         })
     }, [])
 
     return (
-        <>
-            {
-                loading ?
-                    <Loading />
-                :
-                <div className="action-form add-category">
-                    <form
-                        onSubmit={e => addCategorySubmit(e)}
-                    >
-                        <select ref={languageInput}>
-                            <option value="" selected>Select language</option>
-                            {
-                                languageList.map(language => (
-                                    <option value={language}>
-                                        {capitalize(language)}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                        <input type="text" placeholder="Category" ref={categoryInput}/>
-                        <input type="text" placeholder="First word on category" ref={firstWord}/>
-                        <input type="submit"/>
-                    </form>
-                </div>
-            }
-        </>
+        <div className="action-form add-category">
+            <form
+                onSubmit={e => addCategorySubmit(e)}
+            >
+                <select ref={languageInput}>
+                    <option value="" selected>Select language</option>
+                    {
+                        languageList.map(language => (
+                            <option value={language}>
+                                {capitalize(language)}
+                            </option>
+                        ))
+                    }
+                </select>
+                <input type="text" placeholder="Category" ref={categoryInput}/>
+                <input type="text" placeholder="First word on category" ref={firstWord}/>
+                <input type="submit"/>
+            </form>
+        </div>
     )
 }
 

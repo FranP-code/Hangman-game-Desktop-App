@@ -231,6 +231,7 @@ header .account-preview .full-name.show {
 }
 .categories-container .categories {
   position: absolute;
+  z-index: 1000;
   top: 15vh;
   left: 0;
   height: 85vh;
@@ -514,7 +515,7 @@ header .account-preview .full-name.show {
   height: 16vw;
   max-height: 250px;
   margin: 0px 3vw;
-  margin-bottom: 5vh;
+  margin-bottom: 2vh;
   font-size: 1.5vw;
   font-weight: bold;
   border: none;
@@ -536,18 +537,18 @@ header .account-preview .full-name.show {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
-.control-panel .buttons-container button.add-words {
+.control-panel .buttons-container button.add-word {
   background-color: #77b3d6;
   border: 1px solid #77a3bd;
   transition: ease-in-out 0.4s;
 }
-.control-panel .buttons-container button.add-words.active {
+.control-panel .buttons-container button.add-word.active {
   background-color: #9ec9e2;
   transition: ease-in-out 0.4s;
   transform: scale(1.1);
   border-bottom: 3px solid #7e7e7e;
 }
-.control-panel .buttons-container button.add-words:hover {
+.control-panel .buttons-container button.add-word:hover {
   background-color: #9ec9e2;
   transition: ease-in-out 0.4s;
 }
@@ -611,17 +612,31 @@ header .account-preview .full-name.show {
   background-color: #98c973;
   transition: ease-in-out 0.4s;
 }
+.control-panel .buttons-container button.add-language {
+  background-color: #f3e24c;
+  border: 1px solid #dacb4c;
+  transition: ease-in-out 0.4s;
+}
+.control-panel .buttons-container button.add-language.active {
+  background-color: #f6ea7c;
+  transition: ease-in-out 0.4s;
+  transform: scale(1.1);
+  border-bottom: 3px solid #7e7e7e;
+}
+.control-panel .buttons-container button.add-language:hover {
+  background-color: #f6ea7c;
+  transition: ease-in-out 0.4s;
+}
 .control-panel .buttons-container.nav-mode {
-  height: 5vw;
+  height: auto;
   padding: 1vh 5vw;
   align-items: initial;
   justify-content: space-between;
 }
 .control-panel .buttons-container.nav-mode button {
   height: 5vh;
-  width: 15vw;
-  margin: 0px 0.5vw;
-  font-size: 1vw;
+  width: 33vw;
+  font-size: 12pt;
 }
 .control-panel .action-form {
   box-sizing: border-box;
@@ -739,10 +754,6 @@ header .account-preview .full-name.show {
 }
 .control-panel .message.sucess {
   background-color: #80ff4e;
-}
-.control-panel .loading {
-  position: initial;
-  height: 100%;
 }
 
 @media (max-width: 991.98px) {

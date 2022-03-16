@@ -23,7 +23,7 @@
             max-height: 250px;
 
             margin: 0px 3vw;
-            margin-bottom: 5vh;
+            margin-bottom: 2vh;
 
             font-size: 1.5vw;
             font-weight: bold;
@@ -64,17 +64,17 @@
                     transform: scale(1.1);
 
                     border-bottom: 3px solid rgb(126, 126, 126);
+                    // box-shadow: 0px 5px #000;
                 }
 
                 &:hover {
                     
                     background-color: adjust-color($color: $background-color, $lightness: 10%, $alpha: 1.0);
                     transition: ease-in-out 0.4s;
-
                 }
             }
 
-            &.add-words {
+            &.add-word {
                 
                 $background-color: #77b3d6;
 
@@ -108,12 +108,18 @@
 
                 @include generateColors($background-color)
             }
+
+            &.add-language {
+                $background-color: #f3e24c;
+                
+                @include generateColors($background-color)
+            }
         }
     }
 
     .buttons-container.nav-mode {
         
-        height: 5vw;
+        height: auto;
 
         padding: 1vh 5vw;
 
@@ -122,22 +128,14 @@
 
         button {
             height: 5vh;
-            width: 15vw;
-
-            margin: 0px 0.5vw;
-
-            font-size: 1vw;
+            width: 33vw;
+            // margin: 0px 0.5vw;
+            font-size: 12pt;
         }
     }
 
     @import 'action-form';
     @import 'message';
-    
-    .loading {
-        position: initial;
-
-        height: 100%;
-    }
 }
 
 @mixin normalizeButton() {
