@@ -71,7 +71,7 @@ header .account-preview .initials.inclusive {
   font-size: 11pt;
 }
 header .account-preview .full-name {
-  width: 10vw;
+  width: 5vw;
   margin-top: 0.5vh;
   background-color: rgba(0, 0, 0, 0.658);
   color: #fff;
@@ -83,6 +83,7 @@ header .account-preview .full-name {
   padding: 0px 2vw;
   padding-bottom: 1vh;
   border-radius: 10px;
+  user-select: none;
 }
 header .account-preview .full-name.show {
   opacity: 100%;

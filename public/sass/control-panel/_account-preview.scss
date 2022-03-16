@@ -41,7 +41,7 @@
     .full-name {
         
         //height: 5vh;
-        width: 10vw;
+        width: 5vw;
 
         margin-top: 0.5vh;
         background-color: rgba(0, 0, 0, 0.658);
@@ -58,6 +58,8 @@
         padding: 0px 2vw;
         padding-bottom: 1vh;
         border-radius: 10px;
+
+        user-select: none;
 
         &.show {
 
